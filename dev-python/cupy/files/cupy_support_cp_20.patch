@@ -1,0 +1,14 @@
+diff -Nur a/cupy_setup_build.py b/cupy_setup_build.py
+--- a/cupy_setup_build.py	2019-04-04 15:27:55.000000000 +0800
++++ b/cupy_setup_build.py	2019-05-02 00:02:02.430288082 +0800
+@@ -652,6 +652,10 @@
+                       ('compute_61', 'sm_61'),
+                       'compute_60']
+ 
++    if cuda_version <= 8999:
++        arch_list += [('compute_20', 'sm_20'),
++                      'compute_20']
++
+     options = []
+     for arch in arch_list:
+         if type(arch) is tuple:

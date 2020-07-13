@@ -1,0 +1,11 @@
+diff -Nur a/src/uapi/linux/linux/wireguard.h b/src/uapi/linux/linux/wireguard.h
+--- a/src/uapi/linux/linux/wireguard.h	2020-07-13 17:44:43.117368214 +0800
++++ b/src/uapi/linux/linux/wireguard.h	2020-07-13 17:43:21.628855647 +0800
+@@ -155,6 +155,7 @@
+ 	WGDEVICE_A_PUBLIC_KEY,
+ 	WGDEVICE_A_FLAGS,
+ 	WGDEVICE_A_LISTEN_PORT,
++	WGDEVICE_A_BIND_ADDR,
+ 	WGDEVICE_A_FWMARK,
+ 	WGDEVICE_A_PEERS,
+ 	__WGDEVICE_A_LAST
