@@ -12,7 +12,7 @@ if [[ ${PV} == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://git.zx2c4.com/wireguard-tools"
 else
-	SRC_URI="https://git.zx2c4.com/wireguard-tools/snapshot/wireguard-tools-${PV}.tar.xz"
+	SRC_URI="https://github.com/FireflyTang/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~s390 sparc x86"
 fi
 
@@ -31,7 +31,7 @@ RDEPEND="${DEPEND}
 "
 
 PATCHES=(
-	${FILESDIR}/0000-wireguard-bind.patch
+	${FILESDIR}/0000-header.patch
 	)
 
 wg_quick_optional_config_nob() {

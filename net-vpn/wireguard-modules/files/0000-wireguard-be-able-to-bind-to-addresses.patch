@@ -1,33 +1,28 @@
-From 97ebf17149f0db3210f98174b16485a1f90bc0d3 Mon Sep 17 00:00:00 2001
-From: FireflyTang <Tang.Rulin.Phys@gmail.com>
-Date: Mon, 29 Jun 2020 12:42:22 +0800
-Subject: [PATCH] wireguard: be able to bind to addresses.
-
-This allows wireguard to bind to a specific IPv4:port or IPv6:port, in
-addition to the default `[::]:port` where all the IPv4 and IPv6
-addresses are listened on.
-
-It addes a new `WGDEVICE_A_BIND_ADDR` field to the netlink interface
-to the userspace.  The address family could either be IPv4 or IPv6 and
-is ultimately identified in the kernel space.
-
-Signed-off-by: FireflyTang <Tang.Rulin.Phys@gmail.com>
-Signed-off-by: Benda Xu <heroxbd@gentoo.org>
----
- drivers/net/wireguard/device.c  |  4 +-
- drivers/net/wireguard/device.h  | 10 +++++
- drivers/net/wireguard/netlink.c | 70 +++++++++++++++++++++++++++------
- drivers/net/wireguard/socket.c  | 35 +++++++++++------
- drivers/net/wireguard/socket.h  |  2 +-
- include/uapi/linux/wireguard.h  |  1 +
- 6 files changed, 96 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/net/wireguard/device.c b/drivers/net/wireguard/device.c
-index a8f151b1b5fa..b8a119829bdd 100644
---- a/drivers/net/wireguard/device.c
-+++ b/drivers/net/wireguard/device.c
-@@ -46,7 +46,7 @@ static int wg_open(struct net_device *dev)
+diff -Nur a/src/device.c b/src/device.c
+--- a/src/device.c	2020-07-13 19:24:22.600618782 +0800
++++ b/src/device.c	2020-07-13 19:38:58.366719712 +0800
+@@ -29,9 +29,7 @@
+ static int wg_open(struct net_device *dev)
+ {
+ 	struct in_device *dev_v4 = __in_dev_get_rtnl(dev);
+-#ifndef COMPAT_CANNOT_USE_IN6_DEV_GET
+ 	struct inet6_dev *dev_v6 = __in6_dev_get(dev);
+-#endif
+ 	struct wg_device *wg = netdev_priv(dev);
+ 	struct wg_peer *peer;
+ 	int ret;
+@@ -44,17 +42,11 @@
+ 		IN_DEV_CONF_SET(dev_v4, SEND_REDIRECTS, false);
+ 		IPV4_DEVCONF_ALL(dev_net(dev), SEND_REDIRECTS) = false;
+ 	}
+-#ifndef COMPAT_CANNOT_USE_IN6_DEV_GET
+ 	if (dev_v6)
+-#ifndef COMPAT_CANNOT_USE_DEV_CNF
  		dev_v6->cnf.addr_gen_mode = IN6_ADDR_GEN_MODE_NONE;
+-#else
+-		dev_v6->addr_gen_mode = IN6_ADDR_GEN_MODE_NONE;
+-#endif
+-#endif
  
  	mutex_lock(&wg->device_update_lock);
 -	ret = wg_socket_init(wg, wg->incoming_port);
@@ -35,7 +30,7 @@ index a8f151b1b5fa..b8a119829bdd 100644
  	if (ret < 0)
  		goto out;
  	list_for_each_entry(peer, &wg->peer_list, peer_list) {
-@@ -228,6 +228,7 @@ static void wg_destruct(struct net_device *dev)
+@@ -236,6 +228,7 @@
  	mutex_lock(&wg->device_update_lock);
  	rcu_assign_pointer(wg->creating_net, NULL);
  	wg->incoming_port = 0;
@@ -43,7 +38,27 @@ index a8f151b1b5fa..b8a119829bdd 100644
  	wg_socket_reinit(wg, NULL, NULL);
  	/* The final references are cleared in the below calls to destroy_workqueue. */
  	wg_peer_remove_all(wg);
-@@ -301,6 +302,7 @@ static int wg_newlink(struct net *src_net, struct net_device *dev,
+@@ -276,19 +269,13 @@
+ 	dev->needed_tailroom = noise_encrypted_len(MESSAGE_PADDING_MULTIPLE);
+ 	dev->type = ARPHRD_NONE;
+ 	dev->flags = IFF_POINTOPOINT | IFF_NOARP;
+-#ifndef COMPAT_CANNOT_USE_IFF_NO_QUEUE
+ 	dev->priv_flags |= IFF_NO_QUEUE;
+-#else
+-	dev->tx_queue_len = 0;
+-#endif
+ 	dev->features |= NETIF_F_LLTX;
+ 	dev->features |= WG_NETDEV_FEATURES;
+ 	dev->hw_features |= WG_NETDEV_FEATURES;
+ 	dev->hw_enc_features |= WG_NETDEV_FEATURES;
+ 	dev->mtu = ETH_DATA_LEN - overhead;
+-#ifndef COMPAT_CANNOT_USE_MAX_MTU
+ 	dev->max_mtu = round_down(INT_MAX, MESSAGE_PADDING_MULTIPLE) - overhead;
+-#endif
+ 
+ 	SET_NETDEV_DEVTYPE(dev, &device_type);
+ 
+@@ -315,6 +302,7 @@
  	wg_cookie_checker_init(&wg->cookie_checker, wg);
  	INIT_LIST_HEAD(&wg->peer_list);
  	wg->device_update_gen = 1;
@@ -51,11 +66,10 @@ index a8f151b1b5fa..b8a119829bdd 100644
  
  	wg->peer_hashtable = wg_pubkey_hashtable_alloc();
  	if (!wg->peer_hashtable)
-diff --git a/drivers/net/wireguard/device.h b/drivers/net/wireguard/device.h
-index 4d0144e16947..7e4e213e5be0 100644
---- a/drivers/net/wireguard/device.h
-+++ b/drivers/net/wireguard/device.h
-@@ -36,6 +36,14 @@ struct crypt_queue {
+diff -Nur a/src/device.h b/src/device.h
+--- a/src/device.h	2020-07-13 19:24:22.600618782 +0800
++++ b/src/device.h	2020-07-13 19:39:09.694721017 +0800
+@@ -36,6 +36,14 @@
  	};
  };
  
@@ -70,20 +84,28 @@ index 4d0144e16947..7e4e213e5be0 100644
  struct wg_device {
  	struct net_device *dev;
  	struct crypt_queue encrypt_queue, decrypt_queue;
-@@ -56,6 +64,8 @@ struct wg_device {
+@@ -56,6 +64,7 @@
  	unsigned int num_peers, device_update_gen;
  	u32 fwmark;
  	u16 incoming_port;
-+	bool have_creating_net_ref;
 +	struct addr_struct bind_addr;
  };
  
  int wg_device_init(void);
-diff --git a/drivers/net/wireguard/netlink.c b/drivers/net/wireguard/netlink.c
-index 20a4f3c0a0a1..5b0d862b4987 100644
---- a/drivers/net/wireguard/netlink.c
-+++ b/drivers/net/wireguard/netlink.c
-@@ -26,6 +26,7 @@ static const struct nla_policy device_policy[WGDEVICE_A_MAX + 1] = {
+diff -Nur a/src/netlink.c b/src/netlink.c
+--- a/src/netlink.c	2020-07-13 19:24:22.600618782 +0800
++++ b/src/netlink.c	2020-07-13 19:53:49.752822441 +0800
+@@ -9,7 +9,9 @@
+ #include "socket.h"
+ #include "queueing.h"
+ #include "messages.h"
++
+ #include "uapi/wireguard.h"
++
+ #include <linux/if.h>
+ #include <net/genetlink.h>
+ #include <net/sock.h>
+@@ -24,6 +26,7 @@
  	[WGDEVICE_A_PUBLIC_KEY]		= { .type = NLA_EXACT_LEN, .len = NOISE_PUBLIC_KEY_LEN },
  	[WGDEVICE_A_FLAGS]		= { .type = NLA_U32 },
  	[WGDEVICE_A_LISTEN_PORT]	= { .type = NLA_U16 },
@@ -91,7 +113,7 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  	[WGDEVICE_A_FWMARK]		= { .type = NLA_U32 },
  	[WGDEVICE_A_PEERS]		= { .type = NLA_NESTED }
  };
-@@ -236,6 +237,14 @@ static int wg_get_device_dump(struct sk_buff *skb, struct netlink_callback *cb)
+@@ -234,6 +237,14 @@
  		    nla_put_string(skb, WGDEVICE_A_IFNAME, wg->dev->name))
  			goto out;
  
@@ -106,7 +128,7 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  		down_read(&wg->static_identity.lock);
  		if (wg->static_identity.has_identity) {
  			if (nla_put(skb, WGDEVICE_A_PRIVATE_KEY,
-@@ -311,19 +320,12 @@ static int wg_get_device_done(struct netlink_callback *cb)
+@@ -309,19 +320,12 @@
  	return 0;
  }
  
@@ -128,7 +150,7 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  }
  
  static int set_allowedip(struct wg_peer *peer, struct nlattr **attrs)
-@@ -491,11 +493,23 @@ static int set_peer(struct wg_device *wg, struct nlattr **attrs)
+@@ -489,11 +493,23 @@
  	return ret;
  }
  
@@ -152,7 +174,7 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  
  	if (IS_ERR(wg)) {
  		ret = PTR_ERR(wg);
-@@ -505,13 +519,16 @@ static int wg_set_device(struct sk_buff *skb, struct genl_info *info)
+@@ -503,13 +519,16 @@
  	rtnl_lock();
  	mutex_lock(&wg->device_update_lock);
  
@@ -170,7 +192,7 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  		struct net *net;
  		rcu_read_lock();
  		net = rcu_dereference(wg->creating_net);
-@@ -532,8 +549,37 @@ static int wg_set_device(struct sk_buff *skb, struct genl_info *info)
+@@ -530,8 +549,37 @@
  	}
  
  	if (info->attrs[WGDEVICE_A_LISTEN_PORT]) {
@@ -210,11 +232,61 @@ index 20a4f3c0a0a1..5b0d862b4987 100644
  		if (ret)
  			goto out;
  	}
-diff --git a/drivers/net/wireguard/socket.c b/drivers/net/wireguard/socket.c
-index c33e2c81635f..e37d3d1045ac 100644
---- a/drivers/net/wireguard/socket.c
-+++ b/drivers/net/wireguard/socket.c
-@@ -345,7 +345,7 @@ static void set_sock_opts(struct socket *sock)
+@@ -602,48 +650,28 @@
+ 	return ret;
+ }
+ 
+-#ifndef COMPAT_CANNOT_USE_CONST_GENL_OPS
+-static const
+-#else
+-static
+-#endif
+-struct genl_ops genl_ops[] = {
++static const struct genl_ops genl_ops[] = {
+ 	{
+ 		.cmd = WG_CMD_GET_DEVICE,
+-#ifndef COMPAT_CANNOT_USE_NETLINK_START
+ 		.start = wg_get_device_start,
+-#endif
+ 		.dumpit = wg_get_device_dump,
+ 		.done = wg_get_device_done,
+-#ifdef COMPAT_CANNOT_INDIVIDUAL_NETLINK_OPS_POLICY
+-		.policy = device_policy,
+-#endif
+ 		.flags = GENL_UNS_ADMIN_PERM
+ 	}, {
+ 		.cmd = WG_CMD_SET_DEVICE,
+ 		.doit = wg_set_device,
+-#ifdef COMPAT_CANNOT_INDIVIDUAL_NETLINK_OPS_POLICY
+-		.policy = device_policy,
+-#endif
+ 		.flags = GENL_UNS_ADMIN_PERM
+ 	}
+ };
+ 
+-static struct genl_family genl_family
+-#ifndef COMPAT_CANNOT_USE_GENL_NOPS
+-__ro_after_init = {
++static struct genl_family genl_family __ro_after_init = {
+ 	.ops = genl_ops,
+ 	.n_ops = ARRAY_SIZE(genl_ops),
+-#else
+-= {
+-#endif
+ 	.name = WG_GENL_NAME,
+ 	.version = WG_GENL_VERSION,
+ 	.maxattr = WGDEVICE_A_MAX,
+ 	.module = THIS_MODULE,
+-#ifndef COMPAT_CANNOT_INDIVIDUAL_NETLINK_OPS_POLICY
+ 	.policy = device_policy,
+-#endif
+ 	.netnsok = true
+ };
+ 
+diff -Nur a/src/socket.c b/src/socket.c
+--- a/src/socket.c	2020-07-13 19:24:22.600618782 +0800
++++ b/src/socket.c	2020-07-13 19:40:09.554727916 +0800
+@@ -345,7 +345,7 @@
  	sk_set_memalloc(sock->sk);
  }
  
@@ -223,7 +295,7 @@ index c33e2c81635f..e37d3d1045ac 100644
  {
  	struct net *net;
  	int ret;
-@@ -366,6 +366,7 @@ int wg_socket_init(struct wg_device *wg, u16 port)
+@@ -366,6 +366,7 @@
  	struct udp_port_cfg port6 = {
  		.family = AF_INET6,
  		.local_ip6 = IN6ADDR_ANY_INIT,
@@ -231,7 +303,7 @@ index c33e2c81635f..e37d3d1045ac 100644
  		.use_udp6_tx_checksums = true,
  		.use_udp6_rx_checksums = true,
  		.ipv6_v6only = true
-@@ -383,20 +384,23 @@ int wg_socket_init(struct wg_device *wg, u16 port)
+@@ -383,20 +384,23 @@
  retry:
  #endif
  
@@ -244,7 +316,7 @@ index c33e2c81635f..e37d3d1045ac 100644
 +		ret = udp_sock_create(net, &port4, &new4);
 +		if (ret < 0) {
 +			pr_err("%s: Could not create IPv4 socket\n", wg->dev->name);
-+			return ret;
++			goto out;
 +		}
 +		set_sock_opts(new4);
 +		setup_udp_tunnel_sock(net, new4, &cfg);
@@ -264,7 +336,7 @@ index c33e2c81635f..e37d3d1045ac 100644
  			if (ret == -EADDRINUSE && !port && retries++ < 100)
  				goto retry;
  			pr_err("%s: Could not create IPv6 socket\n",
-@@ -408,7 +412,7 @@ int wg_socket_init(struct wg_device *wg, u16 port)
+@@ -408,7 +412,7 @@
  	}
  #endif
  
@@ -273,11 +345,12 @@ index c33e2c81635f..e37d3d1045ac 100644
  	ret = 0;
  out:
  	put_net(net);
-@@ -427,8 +431,15 @@ void wg_socket_reinit(struct wg_device *wg, struct sock *new4,
+@@ -427,8 +431,16 @@
  				lockdep_is_held(&wg->socket_update_lock));
  	rcu_assign_pointer(wg->sock4, new4);
  	rcu_assign_pointer(wg->sock6, new6);
 -	if (new4)
++
 +	if(new4) {
  		wg->incoming_port = ntohs(inet_sk(new4)->inet_sport);
 +		wg->bind_addr.addr4.sin_addr.s_addr = inet_sk(new4)->inet_saddr;
@@ -290,10 +363,9 @@ index c33e2c81635f..e37d3d1045ac 100644
  	mutex_unlock(&wg->socket_update_lock);
  	synchronize_rcu();
  	sock_free(old4);
-diff --git a/drivers/net/wireguard/socket.h b/drivers/net/wireguard/socket.h
-index bab5848efbcd..f37dd1dc757b 100644
---- a/drivers/net/wireguard/socket.h
-+++ b/drivers/net/wireguard/socket.h
+diff -Nur a/src/socket.h b/src/socket.h
+--- a/src/socket.h	2020-07-13 19:24:22.600618782 +0800
++++ b/src/socket.h	2020-07-13 19:40:12.614728269 +0800
 @@ -11,7 +11,7 @@
  #include <linux/if_vlan.h>
  #include <linux/if_ether.h>
@@ -303,11 +375,10 @@ index bab5848efbcd..f37dd1dc757b 100644
  void wg_socket_reinit(struct wg_device *wg, struct sock *new4,
  		      struct sock *new6);
  int wg_socket_send_buffer_to_peer(struct wg_peer *peer, void *data,
-diff --git a/include/uapi/linux/wireguard.h b/include/uapi/linux/wireguard.h
-index ae88be14c947..5425de5b6e5f 100644
---- a/include/uapi/linux/wireguard.h
-+++ b/include/uapi/linux/wireguard.h
-@@ -155,6 +155,7 @@ enum wgdevice_attribute {
+diff -Nur a/src/uapi/wireguard.h b/src/uapi/wireguard.h
+--- a/src/uapi/wireguard.h	2020-07-13 19:24:22.601618783 +0800
++++ b/src/uapi/wireguard.h	2020-07-13 19:40:47.482732287 +0800
+@@ -155,6 +155,7 @@
  	WGDEVICE_A_PUBLIC_KEY,
  	WGDEVICE_A_FLAGS,
  	WGDEVICE_A_LISTEN_PORT,
@@ -315,6 +386,3 @@ index ae88be14c947..5425de5b6e5f 100644
  	WGDEVICE_A_FWMARK,
  	WGDEVICE_A_PEERS,
  	__WGDEVICE_A_LAST
--- 
-2.27.0
-
