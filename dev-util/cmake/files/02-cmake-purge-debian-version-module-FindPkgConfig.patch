@@ -1,0 +1,40 @@
+diff -Nur a/Modules/FindPkgConfig.cmake b2/Modules/FindPkgConfig.cmake
+--- a/Modules/FindPkgConfig.cmake	2020-06-28 14:48:24.754543337 -0000
++++ b2/Modules/FindPkgConfig.cmake	2020-06-28 14:45:47.562618701 -0000
+@@ -299,24 +299,18 @@
+     if(NOT DEFINED CMAKE_SYSTEM_NAME
+         OR (CMAKE_SYSTEM_NAME MATCHES "^(Linux|kFreeBSD|GNU)$"
+             AND NOT CMAKE_CROSSCOMPILING))
+-      if(EXISTS "/etc/debian_version") # is this a debian system ?
+-        if(CMAKE_LIBRARY_ARCHITECTURE)
+-          list(APPEND _lib_dirs "lib/${CMAKE_LIBRARY_ARCHITECTURE}/pkgconfig")
+-        endif()
+-      else()
+-        # not debian, check the FIND_LIBRARY_USE_LIB32_PATHS and FIND_LIBRARY_USE_LIB64_PATHS properties
+-        get_property(uselib32 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB32_PATHS)
+-        if(uselib32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+-          list(APPEND _lib_dirs "lib32/pkgconfig")
+-        endif()
+-        get_property(uselib64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)
+-        if(uselib64 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+-          list(APPEND _lib_dirs "lib64/pkgconfig")
+-        endif()
+-        get_property(uselibx32 GLOBAL PROPERTY FIND_LIBRARY_USE_LIBX32_PATHS)
+-        if(uselibx32 AND CMAKE_INTERNAL_PLATFORM_ABI STREQUAL "ELF X32")
+-          list(APPEND _lib_dirs "libx32/pkgconfig")
+-        endif()
++      # not debian, check the FIND_LIBRARY_USE_LIB32_PATHS and FIND_LIBRARY_USE_LIB64_PATHS properties
++      get_property(uselib32 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB32_PATHS)
++      if(uselib32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
++        list(APPEND _lib_dirs "lib32/pkgconfig")
++      endif()
++      get_property(uselib64 GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS)
++      if(uselib64 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
++        list(APPEND _lib_dirs "lib64/pkgconfig")
++      endif()
++      get_property(uselibx32 GLOBAL PROPERTY FIND_LIBRARY_USE_LIBX32_PATHS)
++      if(uselibx32 AND CMAKE_INTERNAL_PLATFORM_ABI STREQUAL "ELF X32")
++        list(APPEND _lib_dirs "libx32/pkgconfig")
+       endif()
+     endif()
+     if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" AND NOT CMAKE_CROSSCOMPILING)

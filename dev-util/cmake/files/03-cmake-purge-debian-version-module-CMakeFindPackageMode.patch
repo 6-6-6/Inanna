@@ -1,0 +1,26 @@
+diff -Nur a/Modules/CMakeFindPackageMode.cmake b3/Modules/CMakeFindPackageMode.cmake
+--- a/Modules/CMakeFindPackageMode.cmake	2020-06-28 14:48:24.750543239 -0000
++++ b3/Modules/CMakeFindPackageMode.cmake	2020-06-28 14:46:31.159707197 -0000
+@@ -93,22 +93,6 @@
+     endif()
+   endif()
+ 
+-  # guess Debian multiarch if it has not been set:
+-  if(EXISTS /etc/debian_version)
+-    if(NOT CMAKE_${LANGUAGE}_LIBRARY_ARCHITECTURE )
+-      file(GLOB filesInLib RELATIVE /lib /lib/*-linux-gnu* )
+-      foreach(file ${filesInLib})
+-        if("${file}" MATCHES "${CMAKE_LIBRARY_ARCHITECTURE_REGEX}")
+-          set(CMAKE_${LANGUAGE}_LIBRARY_ARCHITECTURE ${file})
+-          break()
+-        endif()
+-      endforeach()
+-    endif()
+-    if(NOT CMAKE_LIBRARY_ARCHITECTURE)
+-      set(CMAKE_LIBRARY_ARCHITECTURE ${CMAKE_${LANGUAGE}_LIBRARY_ARCHITECTURE})
+-    endif()
+-  endif()
+-
+ endif()
+ 
+ set(CMAKE_${LANGUAGE}_COMPILER "dummy")
