@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit linux-info
+
 DESCRIPTION="R.A.I.T. - Redundant Array of Inexpensive Tunnels"
 HOMEPAGE="https://gitlab.com/NickCao/RAIT"
 
@@ -19,7 +21,8 @@ IUSE=""
 
 RDEPEND="virtual/wireguard"
 
-CONFIG_CHECK="~CONFIG_VETH"
+CONFIG_CHECK="~VETH
+	~NET_NS"
 
 src_unpack() {
 	mkdir -p ${S}
@@ -36,11 +39,11 @@ src_install() {
 }
 
 pkg_preinst() {
-	elog 'RAIT depends on VETH pairs, you need to create it on your own.'
+	elog 'To make use of rait, you need VETH pairs, and you have to create it on your own.'
 	elog 'Here is an example for netifrc:'
 	elog ''
 	elog '# Append those lines to your /etc/conf.d/net'
-	elog 'type_gravity="veth"'
+	elinux-infolog 'type_gravity="veth"'
 	elog 'veth_gravity_peer1="gravity"'
 	elog 'veth_gravity_peer2="raitlocal"'
 	elog 'veth_gravity_ns2="gravity"'

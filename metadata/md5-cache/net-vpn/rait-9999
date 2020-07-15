@@ -1,10 +1,12 @@
-DEFINED_PHASES=install preinst unpack
+DEFINED_PHASES=install preinst setup unpack
 DESCRIPTION=R.A.I.T. - Redundant Array of Inexpensive Tunnels
 EAPI=7
 HOMEPAGE=https://gitlab.com/NickCao/RAIT
+IUSE=kernel_linux
 KEYWORDS=amd64
 LICENSE=Apache-2.0
 RDEPEND=virtual/wireguard
 SLOT=0
 SRC_URI=https://gitlab.com/NickCao/RAIT/-/jobs/artifacts/bind/raw/bin/rait?job=build:binary -> rait-9999
-_md5_=c42e530a19168ed8f46a80c889817b87
+_eclasses_=linux-info	c90a203b1c14cfa77bd3e37a0e96c955	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	605c126bed8d87e4378d5ff1645330cb
+_md5_=e930a9fb6c51b920e0abce00eaee8668
