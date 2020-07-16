@@ -9,5 +9,5 @@ LICENSE=GPL-2
 RDEPEND=!<virtual/wireguard-1 module? ( kernel_linux? ( virtual/modutils ) )
 SLOT=0
 SRC_URI=https://git.zx2c4.com/wireguard-linux-compat/snapshot/wireguard-linux-compat-1.0.20200623.tar.xz
-_eclasses_=bash-completion-r1	e5f9c3faab3ab3d1e7e007daa8c736ef	eutils	fcb2aa98e1948b835b5ae66ca52868c5	linux-info	c90a203b1c14cfa77bd3e37a0e96c955	linux-mod	9991808b521b5a8c569c9c4ccf8893f6	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	605c126bed8d87e4378d5ff1645330cb
+_eclasses_=bash-completion-r1	e5f9c3faab3ab3d1e7e007daa8c736ef	eutils	fcb2aa98e1948b835b5ae66ca52868c5	linux-info	ed97304af323c7b2f6934f229982cb7d	linux-mod	9991808b521b5a8c569c9c4ccf8893f6	multilib	318e8ae683e57fd3ccd0d31a769d8ee8	toolchain-funcs	512eb3367f507ebaa1d1d43ab7d66e6c
 _md5_=89a07bb279678f0b5b5a8a57adb689ce
