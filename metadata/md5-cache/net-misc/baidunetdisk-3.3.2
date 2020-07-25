@@ -1,0 +1,12 @@
+DEFINED_PHASES=install postinst postrm unpack
+DESCRIPTION=Client for Baidu Netdisk
+EAPI=7
+HOMEPAGE=https://pan.baidu.com/
+IUSE=doc system-mesa system-ffmpeg system-vulkan
+KEYWORDS=amd64
+RDEPEND=system-mesa? ( media-libs/mesa ) system-ffmpeg? ( media-video/ffmpeg[chromium] ) system-vulkan? ( media-libs/vulkan-loader )
+RESTRICT=strip
+SLOT=0
+SRC_URI=http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/3.3.2/baidunetdisk_3.3.2_amd64.deb -> baidunetdisk-3.3.2.deb
+_eclasses_=unpacker	3cd8bad0d31e525cd26be1bfa4e61631	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
+_md5_=153ce4027ba0ca98c7386f1c5450e35c
