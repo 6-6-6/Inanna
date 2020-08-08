@@ -1,36 +1,27 @@
 #!/sbin/openrc-run
 
-description="Babel routing daemon"
-command="/sbin/ip netns exec gravity babeld"
-command_args="-I $pidfile -S /var/lib/babeld/state -c /etc/gravity.conf"
+description="R.A.I.T - Redundant Array of Inexpensive Tunnels"
+command="ip netns exec gravity babeld"
+command_args="-I /run/gravity.pid -S /var/lib/babeld/state -c /etc/gravity.conf"
 supervisor=supervise-daemon
 output_log=/var/log/gravity.log
 error_log=/var/log/gravity.log
+rait_config="/etc/rait/rait.conf"
+required_files="/etc/gravity.conf ${rait_config}"
 
-depend()
-{
-	need rait
+depend() {
+	use dns
+	need net
 }
 
-start_post()
-{
-	newton=$(sed -nr 's/PrivateKey ?= ?"(.*)"/\1/p' /etc/rait/newton.conf)
-	newton1=$(echo ${newton} | wg pubkey)
-	addr=$(python3 -c "from hashlib import shake_256;h=shake_256();h.update(b'${newton1}');print(h.hexdigest(2)[:3])")0
-
-	ip link add gravity type veth peer rait netns gravity
-
-	ip netns exec gravity ip addr add 2a0c:b641:69c:${addr}::2/126 dev rait
-	ip netns exec gravity ip link set rait up
-
-	ip addr add 2a0c:b641:69c:${addr}::1/126 dev gravity
-	ip link set gravity up
-
-	ip route add 2a0c:b641:69c::/48 via 2a0c:b641:69c:${addr}::2 proto static
-	ip netns exec gravity ip route add 2a0c:b641:69c:${addr}::/60 via 2a0c:b641:69c:${addr}::1 proto static
+load_rait() {
+	ewaitfile 0 /run/gravity.ctl
+	rait up -c ${rait_config}
+	rait babeld sync -c ${rait_config}
 }
 
-stop_pre()
-{
-	ip link del gravity
-}
+start_post() { load_rait; }
+
+reload() { load_rait; }
+
+stop_pre() { rait down -c ${rait_config}; }

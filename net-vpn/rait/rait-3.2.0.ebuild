@@ -273,13 +273,17 @@ src_compile() {
 src_install() {
 	dobin rait
 	einstalldocs
+	newinitd "${FILESDIR}"/gravity.openrc gravity
 
-	newinitd ${FILESDIR}/gravity.openrc gravity
-	newinitd ${FILESDIR}/rait.openrc rait
+	dodir /etc
+	insinto /etc
+	doins "${FILESDIR}"/gravity.conf
+
+	keepdir /etc/rait
 }
 
 pkg_postinst() {
-	elog 'To make use of rait, you need VETH pairs, and you have to create it on your own.'
+	elog 'To make use of rait, you may need VETH pairs, and you have to create it on your own.'
 	elog 'Here is an example for netifrc:'
 	elog ''
 	elog '# Append those lines to your /etc/conf.d/net'
