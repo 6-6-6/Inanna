@@ -258,8 +258,6 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE=""
 
-RDEPEND="virtual/wireguard"
-
 CONFIG_CHECK="~VETH ~NET_NS"
 
 DOCS=(README.md)
