@@ -1,0 +1,7 @@
+DEFINED_PHASES=-
+DESCRIPTION=Virtual for DHCP client
+EAPI=7
+KEYWORDS=amd64 arm64 ppc64
+RDEPEND=|| ( net-misc/dhcpcd net-misc/dhcp[client(+)] )
+SLOT=0
+_md5_=f3f8d3964ff5b1aa1016a3ea043608f5

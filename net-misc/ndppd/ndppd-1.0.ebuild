@@ -10,7 +10,7 @@ HOMEPAGE="https://github.com/DanielAdolfsson/ndppd"
 SRC_URI="https://codeload.github.com/DanielAdolfsson/ndppd/zip/f2fc683bbd71ab6f7ca9031845b839ace2486684 -> ${P}.zip"
 
 LICENSE="GPL-3"
-SLOT="0"
+SLOT="1"
 KEYWORDS="~amd64"
 IUSE=""
 
@@ -21,9 +21,9 @@ S="${WORKDIR}"/${PN}-e1746bb59706adba96506ba06e30da0762638265
 
 src_install()
 {
-	dobin "${BUILD_DIR}"/ndppd
+	newbin "${BUILD_DIR}"/${PN} ${PN}-${SLOT}
 	insinto /etc
-	newins ndppd.conf-dist ndppd.conf
-	newinitd "${FILESDIR}"/ndppd.initd ndppd
+	newins ${PN}.conf-dist ${PN}-${SLOT}.conf
+	newinitd "${FILESDIR}"/${PN}-${SLOT}.initd ${PN}-${SLOT}
 }
 
