@@ -6,9 +6,13 @@
     <name>zongyu</name>
   </maintainer>
   <longdescription lang="en">
-    This is a C-level implementation of a fast, re-entrant, optimistic lock for CPython.
+    A free-to-win rhythm game developed by peppy with four game modes:
+    osu!standard, a circle clicking simulator;
+    osu!taiko, a drumming emulator;
+    osu!catch, a fruit salad catcher;
+    and osu!mania, a key smashing synthesizer.
   </longdescription>
   <upstream>
-    <remote-id type="pypi">fastrlock</remote-id>
+    <remote-id type="github">ppy/osu</remote-id>
   </upstream>
 </pkgmetadata>

@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PVR}.tar.gz -> ${PF}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~x86"
 IUSE="cudnn cuda rocm examples test"
 
 REQUIRED_USE="
@@ -38,13 +38,13 @@ PATCHES=(
 
 src_prepare() {
 	if use cuda; then
-		export CUDA_PATH=${EPREFIX}/opt/cuda/
+		export CUDA_PATH="${EPREFIX}"/opt/cuda/
 	else
 		export HCC_AMDGPU_TARGET=gfx701,gfx702,gfx801,gfx802,gfx803,gfx900,gfx902,gfx906
 		export __HIP_PLATFORM_HCC__
 		export CUPY_INSTALL_USE_HIP=1
-		export ROCM_HOME=${EPREFIX}/opt/rocm
-		append-ldflags "-L ${EPREFIX}/opt/rocm/hip/lib -L ${EPREFIX}/opt/rocm/hiprand/lib/"
+		export ROCM_HOME="${EPREFIX}"/opt/rocm
+		append-ldflags "-L '${EPREFIX}'/opt/rocm/hip/lib -L '${EPREFIX}'/opt/rocm/hiprand/lib/"
 	fi
 	default
 }

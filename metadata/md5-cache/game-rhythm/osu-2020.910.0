@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install
+DEPEND=virtual/dotnetcore-sdk
+DESCRIPTION=A free-to-win rhythm game. Rhythm is just a click away!
+EAPI=7
+HOMEPAGE=https://osu.ppy.sh/home
+KEYWORDS=~amd64
+LICENSE=MIT
+RDEPEND=virtual/dotnetcore-sdk
+SLOT=0
+SRC_URI=https://github.com/ppy/osu/archive/2020.910.0.tar.gz
+_md5_=47c1a305d573af1604476445b79c4748

@@ -6,15 +6,14 @@
     <name>zongyu</name>
   </maintainer>
   <longdescription lang="en">
-	  CuPy is an open-source array library accelerated with NVIDIA CUDA. CuPy provides GPU accelerated computing with Python.
-	  CuPy uses CUDA-related libraries including cuBLAS, cuDNN, cuRand, cuSolver, cuSPARSE, cuFFT and NCCL to make full use of the GPU architecture.
-</longdescription>
-<use>
-	cudnn cuda rocm examples test
-  <flag name="cudnn">make use of cuDNN</flag>
-  <flag name="cuda">build with nVIDIA CUDA platform</flag>
-  <flag name="rocm">build with AMD ROCm platform</flag>
-</use>
+    CuPy is an open-source array library accelerated with NVIDIA CUDA. CuPy provides GPU accelerated computing with Python.
+    CuPy uses CUDA-related libraries including cuBLAS, cuDNN, cuRand, cuSolver, cuSPARSE, cuFFT and NCCL to make full use of the GPU architecture.
+  </longdescription>
+  <use>
+    <flag name="cudnn">make use of cuDNN</flag>
+    <flag name="cuda">build with nVIDIA CUDA platform</flag>
+    <flag name="rocm">build with AMD ROCm platform</flag>
+  </use>
   <upstream>
     <remote-id type="pypi">cupy</remote-id>
   </upstream>

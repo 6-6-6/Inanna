@@ -6,9 +6,14 @@
     <name>zongyu</name>
   </maintainer>
   <longdescription lang="en">
-    This is a C-level implementation of a fast, re-entrant, optimistic lock for CPython.
+    client for baidu netdisk
   </longdescription>
+  <use>
+    <flag name="system-ffmpeg">use native ffmpeg</flag>
+    <flag name="system-mesa">use native mesa</flag>
+    <flag name="system-vulkan">use native vulkan</flag>
+  </use>
   <upstream>
-    <remote-id type="pypi">fastrlock</remote-id>
+    <remote-id type="pypi">cupy</remote-id>
   </upstream>
 </pkgmetadata>

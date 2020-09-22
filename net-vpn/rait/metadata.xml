@@ -6,13 +6,13 @@
     <name>zongyu</name>
   </maintainer>
   <longdescription lang="en">
-	  rait, acronym for redundant array of inexpensive tunnels,
-	  is the missing the missing piece of the puzzle,
-	  for using wireguard to create distributed overlay networks.
-	  It serves the purpose by creating point to point tunnels between all participants,
-	  forming fully-meshed link-local connectivity.
-	  Meanwhile, the site scope routing and underlying signaling mechanism employed to exchange node metadata,
-	  is out of scope for this project.
+    rait, acronym for redundant array of inexpensive tunnels,
+    is the missing the missing piece of the puzzle,
+    for using wireguard to create distributed overlay networks.
+    It serves the purpose by creating point to point tunnels between all participants,
+    forming fully-meshed link-local connectivity.
+    Meanwhile, the site scope routing and underlying signaling mechanism employed to exchange node metadata,
+    is out of scope for this project.
   </longdescription>
   <upstream>
     <remote-id type="gitlab">NickCao/RAIT</remote-id>

@@ -6,9 +6,6 @@
     <name>zongyu</name>
   </maintainer>
   <longdescription lang="en">
-    This is a C-level implementation of a fast, re-entrant, optimistic lock for CPython.
+    Virtual package for dhcpclients.
   </longdescription>
-  <upstream>
-    <remote-id type="pypi">fastrlock</remote-id>
-  </upstream>
 </pkgmetadata>
