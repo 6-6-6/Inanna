@@ -7,5 +7,5 @@ KEYWORDS=~amd64
 LICENSE=MIT
 RDEPEND=virtual/dotnetcore-sdk
 SLOT=0
-SRC_URI=https://github.com/ppy/osu/archive/2020.910.0.tar.gz
-_md5_=47c1a305d573af1604476445b79c4748
+SRC_URI=https://github.com/ppy/osu/archive/2020.910.0.tar.gz -> osu-2020.910.0.tar.gz
+_md5_=8392dcd7d4a5862cea51c1bc3cb03312

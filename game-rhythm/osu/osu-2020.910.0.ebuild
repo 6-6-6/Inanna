@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="A free-to-win rhythm game. Rhythm is just a click away!"
 HOMEPAGE="https://osu.ppy.sh/home"
-SRC_URI="https://github.com/ppy/${PN}/archive/${PV}.tar.gz"
+SRC_URI="https://github.com/ppy/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
