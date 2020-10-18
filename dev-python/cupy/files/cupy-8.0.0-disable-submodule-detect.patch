@@ -1,0 +1,23 @@
+diff -Nur a/setup.py b/setup.py
+--- a/setup.py	2020-10-18 13:30:49.742376063 +0800
++++ b/setup.py	2020-10-18 13:30:59.017375700 +0800
+@@ -8,19 +8,6 @@
+ import cupy_setup_build
+ 
+ 
+-if len(os.listdir('cupy/core/include/cupy/cub/')) == 0:
+-    msg = '''
+-    The folder cupy/core/include/cupy/cub/ is a git submodule but is
+-    currently empty. Please use the command
+-
+-        git submodule update --init
+-
+-    to populate the folder before building from source.
+-    '''
+-    print(msg, file=sys.stderr)
+-    sys.exit(1)
+-
+-
+ if sys.version_info[:3] == (3, 5, 0):
+     if not int(os.getenv('CUPY_PYTHON_350_FORCE', '0')):
+         msg = """

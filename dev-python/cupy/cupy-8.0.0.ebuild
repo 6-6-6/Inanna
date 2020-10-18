@@ -25,7 +25,7 @@ RDEPEND="
 	>=dev-python/six-1.9.0[${PYTHON_USEDEP}]
 	>=dev-python/fastrlock-0.3[${PYTHON_USEDEP}]
 	rocm? ( dev-util/amd-rocm-meta-bin )
-	cuda? ( dev-util/nvidia-cuda-toolkit )
+	cuda? ( dev-util/nvidia-cuda-toolkit[profiler] )
 	cudnn? ( dev-libs/cudnn )
 "
 DEPEND="${RDEPEND}
@@ -33,10 +33,13 @@ DEPEND="${RDEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}"/cupy_support_cp_20.patch
-)
+	"${FILESDIR}"/${PN}-8.0.0-disable-submodule-detect.patch)
 
 src_prepare() {
+	# override flags
+	find ${S} -type f -exec sed -i "s/-std=c++11/-std=c++14/g" "{}" \;
+
+	#
 	if use cuda; then
 		export CUDA_PATH="${EPREFIX}"/opt/cuda/
 	else
