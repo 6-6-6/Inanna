@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,10 +11,10 @@ HOMEPAGE="https://github.com/OpenProgger/phonon-mpv"
 
 if [[ ${KDE_BUILD_TYPE} = release ]]; then
 	SRC_URI="https://github.com/OpenProgger/${PN}/archive/v${PV}.tar.gz"
-	KEYWORDS="amd64 ~arm arm64 ~ppc ~ppc64 x86"
+	KEYWORDS="amd64 ~arm64 ~ppc ~ppc64 x86"
 fi
 
-LICENSE="LGPL-2.1+ || ( LGPL-2.1 LGPL-3 )"
+LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE="debug"
 
@@ -29,4 +29,3 @@ DEPEND="
 	media-video/mpv[libmpv]
 "
 RDEPEND="${DEPEND}"
-
