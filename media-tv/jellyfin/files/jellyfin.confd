@@ -1,0 +1,6 @@
+# where jellyfin stores its databases
+DATABASE_DIR=/var/lib/jellyfin/db
+# where jellyfin stores its cache files
+CACHE_DIR=/var/cache/jellyfin
+# where jellyfin stores its configuration
+CONFIG_DIR=/var/lib/jellyfin/config
