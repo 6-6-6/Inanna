@@ -6,6 +6,7 @@ Portage overlay of [6-6-6](https://github.com/6-6-6).
 dev-python/cupy
 dev-utils/cmake # patch for https://bugs.gentoo.org/733480
 game-rhythm/osu
+media-tv/jellyfin
 net-misc/ndppd:1 # dev-branch of ndppd
 net-vpn/rait
 ```
