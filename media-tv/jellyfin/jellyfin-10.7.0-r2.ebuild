@@ -7,8 +7,8 @@ inherit eutils prefix
 
 DESCRIPTION="A volunteer-built media solution that puts you in control of your media."
 HOMEPAGE="https://jellyfin.org/"
-SRC_URI="https://repo.jellyfin.org/releases/server/linux/versions/stable/combined/${PV}~rc1/${PN}_${PV}~rc1.tar.gz"
-S="${WORKDIR}/${PN}_${PV}~rc1"
+SRC_URI="https://repo.jellyfin.org/releases/server/linux/versions/stable/combined/${PV}~rc2/${PN}_${PV}~rc2.tar.gz"
+S="${WORKDIR}/${PN}_${PV}~rc2"
 
 KEYWORDS="-* ~amd64"
 SLOT="0"

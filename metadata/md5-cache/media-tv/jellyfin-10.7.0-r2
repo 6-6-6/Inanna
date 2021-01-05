@@ -8,6 +8,6 @@ LICENSE=GPL-2
 RDEPEND=acct-user/jellyfin acct-group/jellyfin dev-libs/icu >=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,v4l,vorbis,vpx,webp,x264,xvid]
 RESTRICT=mirror test
 SLOT=0
-SRC_URI=https://repo.jellyfin.org/releases/server/linux/versions/stable/combined/10.7.0~rc1/jellyfin_10.7.0~rc1.tar.gz
+SRC_URI=https://repo.jellyfin.org/releases/server/linux/versions/stable/combined/10.7.0~rc2/jellyfin_10.7.0~rc2.tar.gz
 _eclasses_=edos2unix	33e347e171066657f91f8b0c72ec8773	eutils	69bd92aa099f708425db9f1f01d61213	l10n	8cdd85e169b835d518bc2fd59f780d8e	prefix	c2993e4c430c1ee24f278983d6189501	wrapper	4251d4c84c25f59094fd557e0063a974
-_md5_=63cc6298bcc0ea772259bd4b97c13229
+_md5_=63af4ae94669125d5e42495fe9c30878
