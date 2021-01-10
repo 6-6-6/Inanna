@@ -1,0 +1,11 @@
+#!/sbin/openrc-run
+# Copyright 1999-2020 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+name="bitwarden_rs daemon"
+description="Unofficial Bitwarden compatible server written in Rust"
+command="/var/lib/bitwarden/${RC_SVCNAME}"
+command_user="bitwarden:bitwarden"
+pidfile="/run/${RC_SVCNAME}.pid"
+supervisor=supervise-daemon
+supervise_daemon_args="--env BITWARDEN_RS_CONFIG=\"$BITWARDEN_RS_CONFIG\" --pidfile ${pidfile} --make-pidfile"
