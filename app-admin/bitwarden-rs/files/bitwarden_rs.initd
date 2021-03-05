@@ -4,8 +4,14 @@
 
 name="bitwarden_rs daemon"
 description="Unofficial Bitwarden compatible server written in Rust"
-command="/var/lib/bitwarden/${RC_SVCNAME}"
+command="/usr/bin/bitwarden_rs"
 command_user="bitwarden:bitwarden"
 pidfile="/run/${RC_SVCNAME}.pid"
 supervisor=supervise-daemon
-supervise_daemon_args="--env BITWARDEN_RS_CONFIG=\"$BITWARDEN_RS_CONFIG\" --pidfile ${pidfile} --make-pidfile"
+supervise_daemon_args="--pidfile ${pidfile}"
+
+start_pre() {
+	set -o allexport
+	source "${BITWARDEN_RS_CONFIG}"
+	set +o allexport
+}

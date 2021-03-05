@@ -8,5 +8,6 @@ inherit acct-user
 DESCRIPTION="Open Source Password Management for You and Your Business"
 ACCT_USER_HOME=/var/lib/bitwarden
 ACCT_USER_GROUPS=( bitwarden )
+ACCT_USER_ID="-1"
 
 acct-user_add_deps

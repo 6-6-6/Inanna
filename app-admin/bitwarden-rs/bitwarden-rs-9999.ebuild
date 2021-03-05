@@ -3,14 +3,16 @@
 
 EAPI=7
 
-inherit cargo unpacker
+inherit git-r3 cargo unpacker
 
 MY_USER="bitwarden"
 MY_PN="bitwarden_rs"
 
+EGIT_REPO_URI="https://github.com/dani-garcia/bitwarden_rs.git"
+EGIT_BRANCH='async'
+
 DESCRIPTION="Unofficial Bitwarden compatible server written in Rust"
 HOMEPAGE="https://github.com/dani-garcia/bitwarden_rs"
-SRC_URI="https://github.com/dani-garcia/${MY_PN}/archive/${PV}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -27,9 +29,8 @@ DEPEND="
 	dev-libs/openssl:0="
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}"/${MY_PN}-${PV}
 src_unpack() {
-	unpacker
+	git-r3_src_unpack
 
 	mkdir -p "${S}" || die
 
