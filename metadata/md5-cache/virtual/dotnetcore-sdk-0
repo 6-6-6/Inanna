@@ -1,7 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Virtual for dotnetcore-sdk
-EAPI=7
-KEYWORDS=~amd64
-RDEPEND=|| ( dev-dotnet/dotnetcore-sdk dev-dotnet/dotnetcore-sdk-bin )
-SLOT=0
-_md5_=451d9e33a15cefd70f27a33e023073c0

@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="virtual/dotnetcore-sdk"
+DEPEND="dev-dotnet/dotnetcore-sdk-bin"
 RDEPEND="${DEPEND}"
 
 src_compile() {
