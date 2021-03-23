@@ -7,7 +7,9 @@ inherit eutils prefix
 
 DESCRIPTION="A volunteer-built media solution that puts you in control of your media."
 HOMEPAGE="https://jellyfin.org/"
-SRC_URI="https://repo.jellyfin.org/releases/server/linux/versions/stable/combined/${PV}/${PN}_${PV}.tar.gz"
+SRC_URI="https://repo.jellyfin.org/releases/server/linux/stable/server/${PN}-server_${PV}_linux-amd64.tar.gz
+		https://repo.jellyfin.org/releases/server/linux/stable/web/${PN}-web_${PV}_portable.tar.gz"
+
 
 KEYWORDS="-* ~amd64"
 SLOT="0"
@@ -18,7 +20,8 @@ RDEPEND="
 	acct-user/${PN}
 	acct-group/${PN}
 	dev-libs/icu
-	>=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,v4l,vorbis,vpx,webp,x264,xvid]"
+	>=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,v4l,vorbis,vpx,webp,x264,xvid]
+	sys-libs/glibc"
 DEPEND="${RDEPEND}"
 
 PROG_DIR="/usr/lib/${PN}"
@@ -32,7 +35,8 @@ QA_PREBUILT="
 
 src_unpack() {
 	unpack ${A}
-	mv ${PN}_${PV} ${P}
+	mv ${PN}-server_${PV} ${P} || die
+	mv ${PN}-web_${PV} ${P}/jellyfin-web || die
 }
 
 src_install() {
