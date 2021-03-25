@@ -21,6 +21,7 @@ REQUIRED_USE="
 		^^ ( cuda rocm )"
 
 RDEPEND="
+	>=dev-python/cython-0.29.22[${PYTHON_USEDEP}]
 	>=dev-python/numpy-1.9.0[${PYTHON_USEDEP}]
 	>=dev-python/six-1.9.0[${PYTHON_USEDEP}]
 	>=dev-python/fastrlock-0.3[${PYTHON_USEDEP}]
