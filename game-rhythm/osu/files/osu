@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export DOTNET_ROOT="$(portageq envvar DOTNET_ROOT)"
-${DOTNET_ROOT}/shared/osu/-version-/osu\!
