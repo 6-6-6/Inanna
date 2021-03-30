@@ -3,34 +3,36 @@
 
 EAPI=7
 
-inherit git-r3 cargo unpacker
+inherit cargo unpacker
 
 MY_USER="bitwarden"
 MY_PN="bitwarden_rs"
 
-EGIT_REPO_URI="https://github.com/dani-garcia/bitwarden_rs.git"
-EGIT_BRANCH='async'
-
 DESCRIPTION="Unofficial Bitwarden compatible server written in Rust"
 HOMEPAGE="https://github.com/dani-garcia/bitwarden_rs"
+SRC_URI="https://github.com/dani-garcia/${MY_PN}/archive/${PV}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="-*"
+KEYWORDS="~amd64"
 IUSE="mysql postgres sqlite"
 
 REQUIRED_USE="|| ( mysql postgres sqlite )"
 
+# TODO: rocket depends on rust-nightly
+#       upstream will switch to stable rust in 0.5.0 release
+#       update this ebuild when it happens
 DEPEND="
-	>=www-apps/bitwarden-rs-web-vault-2.14.0
 	acct-group/${MY_USER}
 	acct-user/${MY_USER}
-	virtual/rust
+	dev-lang/rust[nightly]
 	dev-libs/openssl:0="
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	>=www-apps/bitwarden-rs-web-vault-2.19.0"
 
+S="${WORKDIR}"/${MY_PN}-${PV}
 src_unpack() {
-	git-r3_src_unpack
+	unpacker
 
 	mkdir -p "${S}" || die
 
