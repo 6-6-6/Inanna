@@ -15,7 +15,7 @@ depend() {
 }
 
 load_rait() {
-	ewaitfile 0 /run/gravity.ctl
+	ewaitfile 9 /run/gravity.ctl
 	rait up -c ${rait_config}
 	rait babeld sync -c ${rait_config}
 }
