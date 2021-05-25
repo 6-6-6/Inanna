@@ -67,7 +67,7 @@ DESCRIPTION="A python module that computes multi-dimensional histogram."
 # does not provide this value so instead repository is used
 HOMEPAGE="https://github.com/6-6-6/histnd"
 SRC_URI="$(cargo_crate_uris ${CRATES})
-		https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz"
+		https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 RESTRICT="mirror"
 # License set may be more restrictive as OR is not respected
 # use cargo-license for a more accurate license picture
