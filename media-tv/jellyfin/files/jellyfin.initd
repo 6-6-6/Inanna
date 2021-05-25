@@ -9,13 +9,13 @@ command_args="--datadir ${DATABASE_DIR}
 		--webdir /usr/lib/jellyfin/jellyfin-web
 		--cachedir ${CACHE_DIR}
 		--configdir ${CONFIG_DIR}
-		--logdir /var/log/jellyfin"
+		--logdir ${LOG_DIR}"
 command_user="jellyfin:jellyfin"
 supervisor=supervise-daemon
-supervise_daemon_args="--pidfile /run/jellyfin.pid"
+supervise_daemon_args="--pidfile /run/${RC_SVCNAME}.pid"
 
 start_pre() {
-        checkpath -d --owner jellyfin:jellyfin --mode 0700 \
-                "${CONFIG_DIR}" "${CACHE_DIR}" "${DATABASE_DIR}"\
-		/var/log/jellyfin
+	checkpath -d --owner jellyfin:jellyfin --mode 0700 \
+		"${CONFIG_DIR}" "${CACHE_DIR}" "${DATABASE_DIR}" \
+		"${LOG_DIR}"
 }
