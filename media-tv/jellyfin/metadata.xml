@@ -5,4 +5,7 @@
     <email>zongyu@novazy.net</email>
     <name>zongyu</name>
   </maintainer>
+  <use>
+	<flag name="x265">Enables HEVC decoding codec of <pkg>media-video/ffmpeg</pkg> (CPU).</flag>
+  </use>
 </pkgmetadata>
