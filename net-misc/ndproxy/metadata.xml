@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>zongyu@novazy.net</email>
+    <name>zongyu</name>
+  </maintainer>
+  <longdescription lang="en">
+      An (incomlete) implementation of RFC 4861 section 7.2.8 -- with some extra recipes.
+  </longdescription>
+</pkgmetadata>
