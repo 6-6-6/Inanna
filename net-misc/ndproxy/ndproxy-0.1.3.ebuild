@@ -116,7 +116,7 @@ DESCRIPTION="An (incomlete) implementation of RFC 4861 section 7.2.8"
 # Double check the homepage as the cargo_metadata crate
 # does not provide this value so instead repository is used
 HOMEPAGE="https://github.com/6-6-6/ndproxy"
-SRC_URI="https://github.com/6-6-6/ndproxy/archive/refs/tags/v${PV}.tar.gz
+SRC_URI="https://github.com/6-6-6/ndproxy/archive/refs/tags/v${PV}.tar.gz -> ${P}.tgz
 $(cargo_crate_uris ${CRATES})"
 
 # License set may be more restrictive as OR is not respected
@@ -131,4 +131,5 @@ src_install() {
 	insinto /etc
 	newins example.config.toml ndproxy.toml
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 }
