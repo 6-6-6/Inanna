@@ -1,0 +1,20 @@
+#!/sbin/openrc-run
+# Copyright 1999-2020 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+name="${RC_SVCNAME} daemon"
+description="Proxies NDP packets between interfaces."
+command="/usr/bin/ndproxy"
+configfile="/etc/ndproxy.toml"
+command_args="-c ${configfile}"
+supervisor=supervise-daemon
+supervise_daemon_args="--respawn-period 15 --respawn-delay 3 --respawn-max 1 --pidfile /run/${SVCNAME}.pid"
+error_log="/var/log/${SVCNAME}.log"
+
+depend() {
+	use net
+}
+
+start_pre() {
+	export RUST_LOG
+}
