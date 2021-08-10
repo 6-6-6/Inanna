@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure install postinst postrm setup test
-DEPEND=eselect-ldso? ( !app-eselect/eselect-cblas >=app-eselect/eselect-blas-0.2 ) || ( dev-lang/python:3.8 dev-lang/python:3.7 )
+DEPEND=eselect-ldso? ( !app-eselect/eselect-cblas >=app-eselect/eselect-blas-0.2 ) || ( dev-lang/python:3.9 dev-lang/python:3.8 )
 DESCRIPTION=BLAS-like Library Instantiation Software Framework
 EAPI=7
 HOMEPAGE=https://github.com/flame/blis
@@ -10,5 +10,5 @@ RDEPEND=eselect-ldso? ( !app-eselect/eselect-cblas >=app-eselect/eselect-blas-0.
 REQUIRED_USE=?? ( openmp pthread serial ) ?? ( eselect-ldso 64bit-index )
 SLOT=0
 SRC_URI=https://github.com/flame/blis/archive/0.8.1.tar.gz -> blis-0.8.1.tar.gz
-_eclasses_=multilib	d410501a125f99ffb560b0c523cd3d1e	python-any-r1	17241a11501065ff3651350040875aa9	python-utils-r1	d273d56dc725880edbeb1f6389faf5f1	toolchain-funcs	24921b57d6561d87cbef4916a296ada4
-_md5_=8a2a0b49093e2a3219dfd4a7ce775d96
+_eclasses_=eapi8-dosym	cd7d420bb5be5ee079f27239ce76b8f5	multilib	97566c1a256d07b00848aa767e38a352	python-any-r1	901d9e22c7a848a1196502edf060f330	python-utils-r1	f5408c7f165c2c81b787182c52bc41dd	toolchain-funcs	9ea1c67b6f8315fdc2568abb674519aa
+_md5_=20b8d4010e663531da09a95beb7c678a

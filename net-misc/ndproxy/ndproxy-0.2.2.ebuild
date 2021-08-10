@@ -6,6 +6,7 @@
 EAPI=7
 
 CRATES="
+	address_translation-0.1.1
 	aho-corasick-0.7.18
 	anyhow-1.0.42
 	argparse-0.2.2
@@ -16,20 +17,20 @@ CRATES="
 	byteorder-1.4.3
 	byteordered-0.5.0
 	bytes-1.0.1
-	cc-1.0.68
+	cc-1.0.69
 	cfg-if-1.0.0
+	classic_bpf-0.1.1
 	config-0.11.0
 	env_logger-0.7.1
-	futures-0.3.15
-	futures-channel-0.3.15
-	futures-core-0.3.15
-	futures-executor-0.3.15
-	futures-io-0.3.15
-	futures-macro-0.3.15
-	futures-sink-0.3.15
-	futures-task-0.3.15
-	futures-util-0.3.15
-	getrandom-0.2.3
+	futures-0.3.16
+	futures-channel-0.3.16
+	futures-core-0.3.16
+	futures-executor-0.3.16
+	futures-io-0.3.16
+	futures-macro-0.3.16
+	futures-sink-0.3.16
+	futures-task-0.3.16
+	futures-util-0.3.16
 	getset-0.1.1
 	glob-0.3.0
 	hermit-abi-0.1.19
@@ -67,42 +68,38 @@ CRATES="
 	pnet_packet-0.28.0
 	pnet_sys-0.28.0
 	pnet_transport-0.28.0
-	ppv-lite86-0.2.10
 	pretty_env_logger-0.4.0
 	proc-macro-error-1.0.4
 	proc-macro-error-attr-1.0.4
 	proc-macro-hack-0.5.19
 	proc-macro-nested-0.1.7
-	proc-macro2-1.0.27
+	proc-macro2-1.0.28
 	quick-error-1.2.3
 	quote-1.0.9
-	rand-0.8.4
-	rand_chacha-0.3.1
-	rand_core-0.6.3
-	rand_hc-0.3.1
 	regex-1.5.4
 	regex-syntax-0.6.25
 	rtnetlink-0.8.0
 	rust-ini-0.13.0
 	ryu-1.0.5
 	serde-0.8.23
-	serde-1.0.126
+	serde-1.0.127
 	serde-hjson-0.9.1
-	serde_json-1.0.64
+	serde_json-1.0.66
 	slab-0.4.3
-	socket2-0.4.0
+	socket2-0.4.1
 	static_assertions-1.1.0
-	syn-1.0.73
+	syn-1.0.74
 	termcolor-1.1.2
 	thiserror-1.0.26
 	thiserror-impl-1.0.26
-	tokio-1.8.1
+	tokio-1.9.0
 	tokio-macros-1.3.0
 	tokio-util-0.6.7
 	toml-0.5.8
+	treebitmap-0.4.0
+	ttl_cache-0.5.1
 	unicode-xid-0.2.2
 	version_check-0.9.3
-	wasi-0.10.2+wasi-snapshot-preview1
 	winapi-0.3.9
 	winapi-i686-pc-windows-gnu-0.4.0
 	winapi-util-0.1.5
@@ -112,24 +109,22 @@ CRATES="
 
 inherit cargo
 
-DESCRIPTION="An (incomlete) implementation of RFC 4861 section 7.2.8"
+DESCRIPTION="An implementation of RFC 4861 section 7.2.8 -- with some extra recipes."
 # Double check the homepage as the cargo_metadata crate
 # does not provide this value so instead repository is used
 HOMEPAGE="https://github.com/6-6-6/ndproxy"
-SRC_URI="https://github.com/6-6-6/ndproxy/archive/refs/tags/v${PV}.tar.gz -> ${P}.tgz
-$(cargo_crate_uris ${CRATES})"
+SRC_URI="https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz
+		$(cargo_crate_uris ${CRATES})"
 
 # License set may be more restrictive as OR is not respected
 # use cargo-license for a more accurate license picture
-LICENSE="MIT"
+LICENSE="Apache-2.0 Boost-1.0 MIT Unlicense"
 SLOT="0"
 KEYWORDS="~amd64"
 RESTRICT="mirror"
 
 src_install() {
 	cargo_src_install
-	insinto /etc
-	newins example.config.toml ndproxy.toml
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+	newinitd openrc/${PN}.initd ${PN}
+	newconfd openrc/${PN}.confd ${PN}
 }
