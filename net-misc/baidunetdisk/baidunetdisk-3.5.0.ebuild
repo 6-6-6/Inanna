@@ -12,7 +12,7 @@ SRC_URI="http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/${PV}/${PN}_${PV}_
 LICENSE=""
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="doc system-mesa system-ffmpeg system-vulkan"
+IUSE="doc system-mesa -system-ffmpeg -system-vulkan"
 RESTRICT="strip"
 
 DEPEND=""
