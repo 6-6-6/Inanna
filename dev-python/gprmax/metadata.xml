@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+    <pkgmetadata>
+      <maintainer type="person">
+        <email>zongyu@novazy.net</email>
+        <name>Pypi ebuilder</name>
+      </maintainer>
+      <longdescription lang="en">
+      there will be description later.
+    </longdescription>
+    <use>
+      <flag name="cuda">build with nVIDIA CUDA platform</flag>
+      <flag name="jupyter">support jupyter notebook</flag>
+    </use>
+      <upstream>
+        <remote-id type="pypi">gprMax</remote-id>
+      </upstream>
+    </pkgmetadata>
+    
