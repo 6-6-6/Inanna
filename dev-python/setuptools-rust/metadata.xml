@@ -8,4 +8,7 @@
   <longdescription lang="en">
       Setuptools Rust extension plugin.
   </longdescription>
+  <upstream>
+    <remote-id type="pypi">setuptools-rust</remote-id>
+  </upstream>
 </pkgmetadata>
