@@ -15,13 +15,13 @@ KEYWORDS="-* ~amd64"
 SLOT="0"
 LICENSE="GPL-2"
 RESTRICT="mirror test"
-IUSE="+x265 vaapi v4l"
+IUSE="+x265 vaapi v4l libass"
 
 RDEPEND="
 	acct-user/${PN}
 	acct-group/${PN}
 	dev-libs/icu
-	>=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,vorbis,vpx,webp,x264,xvid,x265?,vaapi?,v4l?]
+	>=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,vorbis,vpx,webp,x264,xvid,x265?,vaapi?,v4l?,libass?]
 	sys-libs/glibc"
 DEPEND="${RDEPEND}"
 
