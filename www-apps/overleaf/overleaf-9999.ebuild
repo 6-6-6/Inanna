@@ -35,9 +35,8 @@ RDEPEND="
 	qpdf? ( app-text/qpdf )
 	spell? ( app-text/aspell )
 "
-## dependency cantidates
+## dependency candidates
 # media-gfx/imagemagick
-# app-text/qpdf
 # media-gfx/optipng
 
 src_prepare() {
