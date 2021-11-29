@@ -1,8 +1,9 @@
-# Copyright 2019-2020 Gentoo Authors
+# Copyright 2019-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python{3_8,3_9} )
+
+PYTHON_COMPAT=( python3_{8..10} )
 inherit python-any-r1
 
 DESCRIPTION="BLAS-like Library Instantiation Software Framework"
@@ -12,19 +13,26 @@ SRC_URI="https://github.com/flame/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc64 ~x86"
-IUSE="openmp pthread serial static-libs eselect-ldso doc 64bit-index"
-REQUIRED_USE="?? ( openmp pthread serial ) ?? ( eselect-ldso 64bit-index )"
+IUSE="doc eselect-ldso openmp pthread serial static-libs 64bit-index"
+REQUIRED_USE="
+	?? ( openmp pthread serial )
+	?? ( eselect-ldso 64bit-index )"
 
-RDEPEND="eselect-ldso? ( !app-eselect/eselect-cblas
-		>=app-eselect/eselect-blas-0.2 )"
+RDEPEND="
+	eselect-ldso? (
+		!app-eselect/eselect-cblas
+		>=app-eselect/eselect-blas-0.2
+	)"
 
+BDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 "
 
 PATCHES=(
-	"${FILESDIR}/${P}-rpath.patch"
-	"${FILESDIR}/${P}-blas-provider.patch"
+	"${FILESDIR}"/${PN}-0.6.0-rpath.patch
+	"${FILESDIR}"/${PN}-0.6.0-blas-provider.patch
+	"${FILESDIR}"/${P}-pkg-config.patch
 )
 
 src_configure() {
@@ -76,7 +84,6 @@ src_install() {
 	use doc && dodoc README.md docs/*.md
 
 	if use eselect-ldso; then
-		dodir /usr/$(get_libdir)/blas/blis
 		insinto /usr/$(get_libdir)/blas/blis
 		doins lib/*/lib{c,}blas.so.3
 		dosym libblas.so.3 usr/$(get_libdir)/blas/blis/libblas.so
