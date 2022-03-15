@@ -1,6 +1,0 @@
-# User and group
-BITWARDEN_RS_USER="bitwarden"
-BITWARDEN_RS_GROUP="bitwarden"
-
-# Environment config file (will be sourced)
-BITWARDEN_RS_CONFIG="/etc/bitwarden_rs.env"

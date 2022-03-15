@@ -1,0 +1,6 @@
+# User and group
+VAULTWARDEN_USER="bitwarden"
+VAULTWARDEN_GROUP="bitwarden"
+
+# Environment config file (will be sourced)
+VAULTWARDEN_CONFIG="/etc/vaultwarden.env"
