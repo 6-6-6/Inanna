@@ -1,0 +1,15 @@
+DEFINED_PHASES=install postinst unpack
+DEPEND=acct-user/jellyfin acct-group/jellyfin dev-libs/icu dev-util/lttng-ust >=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,vorbis,vpx,webp,x264,xvid,x265?,vaapi?,v4l?,libass?] sys-libs/glibc
+DESCRIPTION=A volunteer-built media solution that puts you in control of your media.
+EAPI=7
+HOMEPAGE=https://jellyfin.org/
+INHERIT=eutils prefix
+IUSE=+x265 vaapi v4l libass
+KEYWORDS=-* ~amd64
+LICENSE=GPL-2
+RDEPEND=acct-user/jellyfin acct-group/jellyfin dev-libs/icu dev-util/lttng-ust >=media-video/ffmpeg-4.0[encode,fdk,mp3,opus,theora,vorbis,vpx,webp,x264,xvid,x265?,vaapi?,v4l?,libass?] sys-libs/glibc
+RESTRICT=mirror test
+SLOT=0
+SRC_URI=https://repo.jellyfin.org/releases/server/linux/versions/stable-pre/server/10.8.0-alpha5/jellyfin-server_10.8.0_linux-amd64.tar.gz https://repo.jellyfin.org/releases/server/linux/versions/stable-pre/web/10.8.0-alpha5/jellyfin-web_10.8.0_portable.tar.gz
+_eclasses_=edos2unix	33e347e171066657f91f8b0c72ec8773	eutils	dab5d8ec471d025b79c9e6906bcf3bff	prefix	d04f14b297013ad1410550c0757f14f8	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4251d4c84c25f59094fd557e0063a974
+_md5_=613e3505cb032e9ac0433134081301fc
