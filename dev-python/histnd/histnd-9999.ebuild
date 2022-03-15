@@ -73,7 +73,7 @@ RESTRICT="mirror"
 # use cargo-license for a more accurate license picture
 LICENSE="Apache-2.0 BSD-3-Clause MIT"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="-*"
 IUSE=""
 
 DEPEND="
