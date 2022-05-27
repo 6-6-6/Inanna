@@ -1,0 +1,150 @@
+diff -Nur a/gprMax/optimisation_taguchi.py b/gprMax/optimisation_taguchi.py
+--- a/gprMax/optimisation_taguchi.py	2022-04-14 21:57:14.000000000 +0800
++++ b/gprMax/optimisation_taguchi.py	2022-05-27 14:57:23.865512574 +0800
+@@ -76,7 +76,7 @@
+     optparamshist = OrderedDict((key, list()) for key in optparams)
+ 
+     # Import specified fitness function
+-    fitness_metric = getattr(import_module('user_libs.optimisation_taguchi.fitness_functions'), fitness['name'])
++    fitness_metric = getattr(import_module('gprmax_userlibs.optimisation_taguchi.fitness_functions'), fitness['name'])
+ 
+     # Select OA
+     OA, N, cols, k, s, t = construct_OA(optparams)
+@@ -261,7 +261,7 @@
+         t (int): Strength of OA
+     """
+ 
+-    oadirectory = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'user_libs', 'optimisation_taguchi')
++    oadirectory = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, 'gprmax_userlibs', 'optimisation_taguchi')
+     oadirectory = os.path.abspath(oadirectory)
+ 
+     # Properties of the orthogonal array (OA)
+diff -Nur a/setup.py b/setup.py
+--- a/setup.py	2022-05-27 14:36:24.461270561 +0800
++++ b/setup.py	2022-05-27 14:58:23.213622400 +0800
+@@ -45,7 +45,7 @@
+     packagename = re.search(r'^__name__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                             fd.read(), re.MULTILINE).group(1)
+ 
+-packages = [packagename, 'tests', 'tools', 'user_libs']
++packages = [packagename, 'gprmax_userlibs']
+ 
+ # Parse long_description from README.rst file.
+ with open('README.rst','r') as fd:
+diff -Nur a/user_libs/antenna_patterns/initial_save.py b/user_libs/antenna_patterns/initial_save.py
+--- a/user_libs/antenna_patterns/initial_save.py	2022-04-14 21:57:14.000000000 +0800
++++ b/user_libs/antenna_patterns/initial_save.py	2022-05-27 14:57:23.866512593 +0800
+@@ -17,7 +17,7 @@
+ 
+ 
+ # Parse command line arguments
+-parser = argparse.ArgumentParser(description='Calculate and store (in a Numpy file) field patterns from a simulation with receivers positioned in circles around an antenna.', usage='cd gprMax; python -m user_libs.antenna_patterns.initial_save outputfile')
++parser = argparse.ArgumentParser(description='Calculate and store (in a Numpy file) field patterns from a simulation with receivers positioned in circles around an antenna.', usage='cd gprMax; python -m gprmax_userlibs.antenna_patterns.initial_save outputfile')
+ parser.add_argument('outputfile', help='name of gprMax output file including path')
+ args = parser.parse_args()
+ outputfile = args.outputfile
+diff -Nur a/user_libs/antenna_patterns/plot_fields.py b/user_libs/antenna_patterns/plot_fields.py
+--- a/user_libs/antenna_patterns/plot_fields.py	2022-04-14 21:57:14.000000000 +0800
++++ b/user_libs/antenna_patterns/plot_fields.py	2022-05-27 14:57:23.866512593 +0800
+@@ -16,7 +16,7 @@
+ 
+ 
+ # Parse command line arguments
+-parser = argparse.ArgumentParser(description='Plot field patterns from a simulation with receivers positioned in circles around an antenna. This module should be used after the field pattern data has been processed and stored using the initial_save.py module.', usage='cd gprMax; python -m user_libs.antenna_patterns.plot_fields numpyfile')
++parser = argparse.ArgumentParser(description='Plot field patterns from a simulation with receivers positioned in circles around an antenna. This module should be used after the field pattern data has been processed and stored using the initial_save.py module.', usage='cd gprMax; python -m gprmax_userlibs.antenna_patterns.plot_fields numpyfile')
+ parser.add_argument('numpyfile', help='name of numpy file including path')
+ # parser.add_argument('hertzian', help='name of numpy file including path')
+ args = parser.parse_args()
+diff -Nur a/user_libs/antennas/GSSI.py b/user_libs/antennas/GSSI.py
+--- a/user_libs/antennas/GSSI.py	2022-04-14 21:57:14.000000000 +0800
++++ b/user_libs/antennas/GSSI.py	2022-05-27 14:57:23.866512593 +0800
+@@ -172,7 +172,7 @@
+ 
+     elif optstate == 'GiannakisPaper':
+         # Optimised custom pulse
+-        print('#excitation_file: ../user_libs/antennas/GSSI1p5optpulse.txt linear extrapolate')
++        print('#excitation_file: ../gprmax_userlibs/antennas/GSSI1p5optpulse.txt linear extrapolate')
+         voltage_source('y', tx[0], tx[1], tx[2], sourceresistance, 'GSSI1p5optpulse', dxdy=(resolution, resolution), rotate90origin=rotate90origin)
+ 
+     # Output point - receiver bowtie
+diff -Nur a/user_libs/optimisation_taguchi/plot_results.py b/user_libs/optimisation_taguchi/plot_results.py
+--- a/user_libs/optimisation_taguchi/plot_results.py	2022-04-14 21:57:14.000000000 +0800
++++ b/user_libs/optimisation_taguchi/plot_results.py	2022-05-27 14:57:23.865512574 +0800
+@@ -14,7 +14,7 @@
+ """Plots the results (pickled to file) from a Taguchi optimisation process."""
+ 
+ # Parse command line arguments
+-parser = argparse.ArgumentParser(description='Plots the results (pickled to file) from a Taguchi optimisation process.', usage='cd gprMax; python -m user_libs.optimisation_taguchi.plot_results picklefile')
++parser = argparse.ArgumentParser(description='Plots the results (pickled to file) from a Taguchi optimisation process.', usage='cd gprMax; python -m gprmax_userlibs.optimisation_taguchi.plot_results picklefile')
+ parser.add_argument('picklefile', help='name of file including path')
+ args = parser.parse_args()
+ 
+diff -Nur a/user_models/antenna_like_GSSI_1500_fs.in b/user_models/antenna_like_GSSI_1500_fs.in
+--- a/user_models/antenna_like_GSSI_1500_fs.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/antenna_like_GSSI_1500_fs.in	2022-05-27 14:57:55.643105746 +0800
+@@ -4,6 +4,6 @@
+ #time_window: 6e-9
+ 
+ #python:
+-from user_libs.antennas.GSSI import antenna_like_GSSI_1500
++from gprmax_userlibs.antennas.GSSI import antenna_like_GSSI_1500
+ antenna_like_GSSI_1500(0.125, 0.094, 0.100, resolution=0.001)
+ #end_python:
+diff -Nur a/user_models/antenna_like_GSSI_1500_patterns_E.in b/user_models/antenna_like_GSSI_1500_patterns_E.in
+--- a/user_models/antenna_like_GSSI_1500_patterns_E.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/antenna_like_GSSI_1500_patterns_E.in	2022-05-27 14:57:55.643105746 +0800
+@@ -7,7 +7,7 @@
+ import numpy as np
+ 
+ from gprMax.input_cmd_funcs import *
+-from user_libs.antennas.GSSI import antenna_like_GSSI_1500
++from gprmax_userlibs.antennas.GSSI import antenna_like_GSSI_1500
+ 
+ filename = os.path.splitext(os.path.split(inputfile)[1])[0]
+ 
+diff -Nur a/user_models/antenna_like_GSSI_1500_patterns_H.in b/user_models/antenna_like_GSSI_1500_patterns_H.in
+--- a/user_models/antenna_like_GSSI_1500_patterns_H.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/antenna_like_GSSI_1500_patterns_H.in	2022-05-27 14:57:55.643105746 +0800
+@@ -7,7 +7,7 @@
+ import numpy as np
+ 
+ from gprMax.input_cmd_funcs import *
+-from user_libs.antennas.GSSI import antenna_like_GSSI_1500
++from gprmax_userlibs.antennas.GSSI import antenna_like_GSSI_1500
+ 
+ filename = os.path.splitext(os.path.split(inputfile)[1])[0]
+ 
+diff -Nur a/user_models/antenna_like_GSSI_400_fs.in b/user_models/antenna_like_GSSI_400_fs.in
+--- a/user_models/antenna_like_GSSI_400_fs.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/antenna_like_GSSI_400_fs.in	2022-05-27 14:57:55.643105746 +0800
+@@ -4,6 +4,6 @@
+ #time_window: 12e-9
+ 
+ #python:
+-from user_libs.antennas.GSSI import antenna_like_GSSI_400
++from gprmax_userlibs.antennas.GSSI import antenna_like_GSSI_400
+ antenna_like_GSSI_400(0.190, 0.190, 0.140, resolution=0.001)
+ #end_python:
+diff -Nur a/user_models/antenna_like_MALA_1200_fs.in b/user_models/antenna_like_MALA_1200_fs.in
+--- a/user_models/antenna_like_MALA_1200_fs.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/antenna_like_MALA_1200_fs.in	2022-05-27 14:57:55.643105746 +0800
+@@ -4,6 +4,6 @@
+ #time_window: 6e-9
+ 
+ #python:
+-from user_libs.antennas.MALA import antenna_like_MALA_1200
++from gprmax_userlibs.antennas.MALA import antenna_like_MALA_1200
+ antenna_like_MALA_1200(0.132, 0.095, 0.100, 0.001)
+ #end_python:
+diff -Nur a/user_models/cylinder_Bscan_GSSI_1500.in b/user_models/cylinder_Bscan_GSSI_1500.in
+--- a/user_models/cylinder_Bscan_GSSI_1500.in	2022-04-14 21:57:14.000000000 +0800
++++ b/user_models/cylinder_Bscan_GSSI_1500.in	2022-05-27 14:57:55.643105746 +0800
+@@ -9,7 +9,7 @@
+ #cylinder: 0.240 0 0.080 0.240 0.148 0.080 0.010 pec
+ 
+ #python:
+-from user_libs.antennas.GSSI import antenna_like_GSSI_1500
++from gprmax_userlibs.antennas.GSSI import antenna_like_GSSI_1500
+ antenna_like_GSSI_1500(0.105 + current_model_run * 0.005, 0.074, 0.170, 0.001)
+ #end_python:
+ 

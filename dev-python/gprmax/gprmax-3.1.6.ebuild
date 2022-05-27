@@ -34,6 +34,15 @@ RDEPEND="dev-python/colorama[${PYTHON_USEDEP}]
 "
 distutils_enable_tests pytest
 
+PATCHES=(
+	"${FILESDIR}/${P}-renaming.patch"
+)
+
+src_configure() {
+	distutils-r1_src_configure
+	mv user_libs gprmax_userlibs || dies
+}
+
 src_prepare() {
 	distutils-r1_src_prepare
 	sed -i 's/^setup($/packages.remove("tests")\npackages.append("gprMax\/pml_updates")\nsetup(/g' setup.py || die
@@ -44,4 +53,18 @@ python_compile() {
 	_distutils-r1_copy_egg_info
 	esetup.py build_py "${@}"
 	esetup.py build_ext "${@}"
+}
+
+src_install() {
+	distutils-r1_src_install
+
+	dodir /usr/share/${PN}
+	insinto /usr/share/${PN}
+	doins -r "${S}"/tools "${S}"/user_models
+}
+
+pkg_postinst() {
+	ewarn "The user_models/ provided by gprMax was installed at /usr/share/${PN}."
+	ewarn "The tools/ provided by gprMax was installed at /usr/share/${PN}."
+	ewarn "The user_libs/ provided by gprMax was renamed to gprmax_userlibs"
 }
