@@ -13,6 +13,7 @@ output_log="/var/log/vaultwarden.log"
 error_log="/var/log/vaultwarden.log"
 
 start_pre() {
+	checkpath --owner "${command_user}" --file "${VAULTWARDEN_CONFIG}" --mode 0600
 	checkpath --owner "${command_user}" --file "${output_log}" --mode 0600
 	export ENV_FILE=${VAULTWARDEN_CONFIG}
 }

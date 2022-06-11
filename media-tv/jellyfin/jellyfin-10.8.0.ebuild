@@ -8,14 +8,12 @@ inherit eutils prefix
 DESCRIPTION="A volunteer-built media solution that puts you in control of your media."
 HOMEPAGE="https://jellyfin.org/"
 SRC_URI="
-https://repo.jellyfin.org/releases/server/linux/versions/stable-pre/server/10.8.0-alpha5/jellyfin-server_10.8.0_linux-amd64.tar.gz
-https://repo.jellyfin.org/releases/server/linux/versions/stable-pre/web/10.8.0-alpha5/jellyfin-web_10.8.0_portable.tar.gz
+https://repo.jellyfin.org/releases/server/linux/stable/server/${PN}-server_${PV}_linux-amd64.tar.gz
+https://repo.jellyfin.org/releases/server/linux/stable/web/${PN}-web_${PV}_portable.tar.gz
 "
-#https://repo.jellyfin.org/releases/server/linux/stable/server/${PN}-server_${PV}_linux-amd64.tar.gz
-#		https://repo.jellyfin.org/releases/server/linux/stable/web/${PN}-web_${PV}_portable.tar.gz"
 
 
-KEYWORDS="-* ~amd64"
+KEYWORDS="~amd64"
 SLOT="0"
 LICENSE="GPL-2"
 RESTRICT="mirror test"
