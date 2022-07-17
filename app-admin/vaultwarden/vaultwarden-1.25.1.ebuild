@@ -376,7 +376,7 @@ DEPEND="
 	acct-user/${MY_USER}
 	dev-libs/openssl:0="
 RDEPEND="${DEPEND}
-	>=www-apps/bitwarden-rs-web-vault-2.28.1"
+	>=www-apps/bitwarden-rs-web-vault-2022.6.2"
 
 src_configure() {
 	myfeatures=(
