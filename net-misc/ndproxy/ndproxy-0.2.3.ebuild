@@ -119,7 +119,7 @@ SRC_URI="https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz
 
 # License set may be more restrictive as OR is not respected
 # use cargo-license for a more accurate license picture
-LICENSE="Apache-2.0 Apache-2.0-with-LLVM-exceptions Boost-1.0 MIT Unicode-DFS-2016 Unlicense"
+LICENSE="Apache-2.0 Apache-2.0-with-LLVM-exceptions Boost-1.0 MIT Unlicense"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
