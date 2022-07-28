@@ -114,7 +114,7 @@ DESCRIPTION="Proxying Neighbor Discovery packets among interfaces."
 # Double check the homepage as the cargo_metadata crate
 # does not provide this value so instead repository is used
 HOMEPAGE="https://github.com/6-6-6/ndproxy"
-SRC_URI="https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz
+SRC_URI="https://github.com/6-6-6/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
 		$(cargo_crate_uris ${CRATES})"
 
 # License set may be more restrictive as OR is not respected
