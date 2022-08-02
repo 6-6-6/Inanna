@@ -357,12 +357,12 @@ DESCRIPTION="Unofficial Bitwarden compatible server written in Rust"
 # Double check the homepage as the cargo_metadata crate
 # does not provide this value so instead repository is used
 HOMEPAGE="https://github.com/dani-garcia/vaultwarden"
-SRC_URI="https://github.com/dani-garcia/vaultwarden/archive/refs/tags/${PV}.tar.gz
+SRC_URI="https://github.com/dani-garcia/vaultwarden/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz
 		$(cargo_crate_uris)"
 
 # License set may be more restrictive as OR is not respected
 # use cargo-license for a more accurate license picture
-LICENSE="(Apache-2.0 Apache-2.0-with-LLVM-exceptions BSD BSD-2 Boost-1.0 GPL-3 ISC MIT) MPL-2.0 Unlicense ZLIB"
+LICENSE="(Apache-2.0 0BSD Apache-2.0 Apache-2.0-with-LLVM-exceptions BSD BSD-2 Boost-1.0 GPL-3 ISC MIT MIT) MPL-2.0 Unlicense ZLIB"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="mysql postgres sqlite"
