@@ -16,6 +16,20 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 IUSE=""
+SAMBA_DEPEND="net-fs/samba[spotlight]"
 RDEPEND=">dev-python/pyyaml-5.0[${PYTHON_USEDEP}]
 	>=dev-python/elasticsearch-8.0[${PYTHON_USEDEP}]"
 distutils_enable_tests pytest
+
+src_install() {
+	distutils-r1_src_install
+
+	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+
+	dodir /etc/fs2es-indexer
+	fowners nobody:nogroup /etc/fs2es-indexer
+	fperms 700 /etc/fs2es-indexer
+	insinto /etc/fs2es-indexer
+	newins config.dist.yml config.yml
+}

@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+# Copyright 2022 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+name="fs2es-indexer daemon"
+description="FileSystem To ElasticSearch Indexer"
+command=/usr/bin/fs2es-indexer
+command_args="--config ${FS2ES_CONFIG} daemon"
+command_user="${FS2ES_USER:-nobody}:${FS2ES_GROUP:-nogroup}"
+supervisor=supervise-daemon
+pidfile="/run/${RC_SVCNAME}.pid"
+supervise_daemon_args="--pidfile ${pidfile}"
+output_log="/var/log/${RC_SVCNAME}.log"
+error_log="/var/log/${RC_SVCNAME}.log"
+
+depend() {
+	after net
+}
+
+start_pre() {
+        checkpath --owner "${command_user}" --file "${FS2ES_CONFIG}" --mode 0600
+        checkpath --owner "${command_user}" --file "${output_log}" --mode 0640
+}

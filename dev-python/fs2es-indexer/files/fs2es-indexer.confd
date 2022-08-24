@@ -1,0 +1,3 @@
+FS2ES_CONFIG="/etc/fs2es-indexer/config.yml"
+FS2ES_USER="nobody"
+FS2ES_GROUP="nobody"
