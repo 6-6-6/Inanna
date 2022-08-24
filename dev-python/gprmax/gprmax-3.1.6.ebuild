@@ -6,7 +6,7 @@ EAPI=7
 MY_PN="gprMax"
 MY_P="${MY_PN}-v.${PV}"
 S="${WORKDIR}/${MY_P}"
-PYTHON_COMPAT=( python3_9 python3_10 )
+PYTHON_COMPAT=( python3_{9,10} )
 
 inherit distutils-r1
 

@@ -5,7 +5,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python{3_8,3_9} )
+PYTHON_COMPAT=( python3_{9,10} )
 
 inherit cargo distutils-r1 git-r3
 
