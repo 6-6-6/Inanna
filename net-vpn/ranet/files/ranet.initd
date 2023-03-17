@@ -16,7 +16,7 @@ load_things() {
 
 depend() {
 	use dns
-	need net
+	need net ipsec
 }
 
 start_post() { load_things; }
