@@ -1,0 +1,5 @@
+
+ranet_config="/etc/ranet/ranet.conf"
+ranet_registry="/etc/ranet/ranet.reg"
+ranet_key="/etc/ranet/privkey.pem"
+bird_config="/etc/ranet/bird.conf"

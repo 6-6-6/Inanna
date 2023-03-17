@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>zongyu@novazy.net</email>
+    <name>zongyu</name>
+  </maintainer>
+  <longdescription lang="en">
+    ranet, acronym for redundant array of networks, forms full mesh IPSec connectivity among network participants.
+  </longdescription>
+  <upstream>
+    <remote-id type="github">NickCao/ranet</remote-id>
+  </upstream>
+</pkgmetadata>

@@ -1,0 +1,26 @@
+#!/sbin/openrc-run
+
+description="redundant array of networks"
+extra_started_commands="reload"
+command="bird"
+command_args="-c ${bird_config} -s /run/ranet-bird.ctl -P /run/ranet-bird.pid -d"
+supervisor=supervise-daemon
+output_log=/var/log/ranet.log
+error_log=/var/log/ranet.log
+required_files="${bird_config} ${ranet_config} ${ranet_registry} ${ranet_key}"
+
+load_things() {
+	birdc -s /run/ranet-bird.ctl configure
+	ranet -c "${ranet_config}" -r "${ranet_registry}" -k "${ranet_key}" up
+}
+
+depend() {
+	use dns
+	need net
+}
+
+start_post() { load_things; }
+
+reload() { load_things; }
+
+stop_pre() { ranet -c "${ranet_config}" -r "${ranet_registry}" -k "${ranet_key}" down; }

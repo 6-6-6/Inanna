@@ -1,0 +1,16 @@
+BDEPEND=sys-devel/bison sys-devel/flex sys-devel/m4 sys-devel/gnuconfig >=app-portage/elt-patches-20170815 || ( >=sys-devel/automake-1.16.5:1.16 ) >=sys-devel/autoconf-2.71-r5 >=sys-devel/libtool-2.4.7
+DEFINED_PHASES=configure install postinst prepare
+DEPEND=client? ( sys-libs/ncurses:= sys-libs/readline:= ) filecaps? ( acct-group/bird acct-user/bird ) libssh? ( net-libs/libssh:= )
+DESCRIPTION=A routing daemon implementing OSPF, RIPv2 & BGP for IPv4 & IPv6
+EAPI=8
+HOMEPAGE=https://bird.network.cz
+IDEPEND=filecaps? ( sys-libs/libcap )
+INHERIT=autotools fcaps
+IUSE=+client debug libssh +filecaps
+KEYWORDS=~amd64 ~arm64 ~x86 ~x64-macos
+LICENSE=GPL-2
+RDEPEND=client? ( sys-libs/ncurses:= sys-libs/readline:= ) filecaps? ( acct-group/bird acct-user/bird ) libssh? ( net-libs/libssh:= )
+SLOT=0
+SRC_URI=https://github.com/tohojo/bird/archive/901f906ac470b318d6598c8b25156b0919f70b2a.tar.gz -> bird-2.9999.tar.gz
+_eclasses_=gnuconfig	b6b3e92f8b8c996400074b5f61a59256	toolchain-funcs	9a610728b9bcca1919234cceb35a1027	multilib	5ca4e49abed8e3a2f7b56920eadee157	libtool	241a8f577b9781a42a7421e53448a44e	autotools	6dcd6b6a486e79928e1243ff9ba41fcc	fcaps	da0130200e07aaecee121b85f4b9ea17
+_md5_=5212c10f3b5656bf25eb7cd69732bec6
