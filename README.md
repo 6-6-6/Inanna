@@ -6,7 +6,8 @@ Portage overlay of [6-6-6](https://github.com/6-6-6).
 app-admin/vaultwarden # in bitwarden branch
 app-portage/gentoo-pypi-generator
 dev-python/fs2es-indexer
-net-misc/ndproxy # replace the dev branch of ndppd
-net-vpn/rait
+net-misc/bird # babel-rtt
+net-misc/ndproxy # replacement of the dev branch of ndppd
+net-misc/swan-updown
+net-vpn/ranet
 ```
-
