@@ -16,6 +16,10 @@ LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
+PATCHES=(
+	"${FILESDIR}/${P}-backport-dev.patch"
+)
+
 S="${WORKDIR}/afterimage-5a33f0902c47c806bfd9dd9c18ab5b8a4be8e360"
 IUSE=""
 RDEPEND="

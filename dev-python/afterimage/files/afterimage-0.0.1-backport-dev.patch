@@ -1,0 +1,164 @@
+diff --git a/examples/config.toml b/examples/config.toml
+index 82ee905..909f4cb 100644
+--- a/examples/config.toml
++++ b/examples/config.toml
+@@ -1,16 +1,20 @@
+-[timelines.hourly-10]
++[timelines.25hourly-1]
+ ## how many snapshots should be kept
+-max_snapshots = 10
++max_snapshots = 1
+ ## how frequent should snapshots be taken (in hours)
+-interval = "0d, 1hr"
++interval = "1d, 1hr"
++
++[timelines.1-5hourly-10]
++max_snapshots = 10
++interval = "1hr, 30min"
+ 
+-[timelines.3monthly-2]
++[timelines.90hourly-2]
+ max_snapshots = 2
+-interval = "90d, 0hr"
++interval = "90hr"
+ 
+ [timelines.2yearly-1]
+ max_snapshots = 1
+-interval = "730d, 0hr"
++interval = "730d"
+ 
+ 
+ [cell]
+@@ -21,4 +25,9 @@ dst = "random position"
+ # whether nested snapshots would be taken
+ recursive = true
+ # select timelines
+-snapshots_timelines = ["hourly-10", "3monthly-2", "2yearly-1"]
++snapshots_timelines = [
++    "25hourly-1",
++    "1-5hourly-10",
++    "90hourly-2",
++    "2yearly-1"
++]
+diff --git a/src/afterimage/cleaner.py b/src/afterimage/cleaner.py
+index db55289..109d4b5 100644
+--- a/src/afterimage/cleaner.py
++++ b/src/afterimage/cleaner.py
+@@ -21,7 +21,7 @@ class AfterimageCleaner():
+                           timeline: AfterimageTimeline):
+         logging.info(f"cleaning snapshot of {config.name} at timeline {timeline.id}")
+         metadata_slice = slice_by_role(
+-            config.metadata_set, timeline.id, postorder=True)
++            config.metadata_set, timeline.id, postorder=False)
+         #
+         old_snapshots = timeline.snapshot_exceeded_limit(len(metadata_slice))
+         #
+diff --git a/src/afterimage/configfunction.py b/src/afterimage/configfunction.py
+index f0a3fd2..a3b4a44 100644
+--- a/src/afterimage/configfunction.py
++++ b/src/afterimage/configfunction.py
+@@ -14,7 +14,17 @@ from .snapshot import AfterimageSnapshotTaker, AfterimageSnapshotPurger
+ # string = "3650d, 5hr"
+ class AfterimageTimeline():
+ 
+-    time_pattern: re.Pattern = re.compile(r'(\d+)d, (\d+)hr')
++    # or use fraction?
++    time_tolerance_fraction: float = 0.02
++    time_tolerance_max: timedelta = timedelta(seconds=300)
++    a = (timedelta(hours=1), timedelta(minutes=1))
++    # pattern, units
++    time_patterns: dict[re.Pattern, list[timedelta]] = {
++        re.compile(r'(\d+)hr, (\d+)min'): [timedelta(hours=1), timedelta(minutes=1)],
++        re.compile(r'(\d+)d, (\d+)hr'):   [timedelta(days=1), timedelta(hours=1)],
++        re.compile(r'(\d+)d'):            [timedelta(days=1)],
++        re.compile(r'(\d+)hr'):           [timedelta(hours=1)],
++        }
+ 
+     def __init__(self, id: str, maximum_snapshots: int, time_interval: str):
+         #
+@@ -25,16 +35,19 @@ class AfterimageTimeline():
+         self._maximum_snapshots: int = maximum_snapshots
+         #
+         self._interval: timedelta = self.parse_time_interval(time_interval)
++        self._time_tolerance: timedelta = min(self.time_tolerance_fraction*self._interval, self.time_tolerance_max)
+ 
+     def parse_time_interval(self, time_interval: str):
+-        matches = re.match(self.time_pattern, time_interval)
+-        if matches:
+-            days = int(matches.group(1))
+-            hours = int(matches.group(2))
+-            return timedelta(days=days, hours=hours)
+-        else:
+-            raise ValueError(
+-                "time_interval is not recognized, please make sure it follows: " + f'"{self.time_pattern.pattern}"')
++        for pattern, units in self.time_patterns.items():
++            matches = re.match(pattern, time_interval)
++            if matches:
++                mytimedelta = timedelta()
++                for idx, unit in enumerate(units):
++                    mytimedelta += int(matches.group(idx+1))*unit
++                return mytimedelta
++        # raise Error if all patterns did not match
++        raise ValueError(
++            "time_interval is not recognized, please make sure it follows: " + f'"{self.time_patterns}"')
+ 
+     def snapshot_exceeded_limit(self, existing_snapshots: int) -> int:
+         '''
+@@ -46,7 +59,7 @@ class AfterimageTimeline():
+         return diff
+ 
+     def enough_time_elapsed(self, delta: timedelta) -> bool:
+-        return True if delta > self._interval else False
++        return True if delta > (self._interval - self._time_tolerance) else False
+ 
+     def __repr__(self):
+         return f"{self._maximum_snapshots} snapshots every {self._interval}."
+diff --git a/tests/testConfigfuntion.py b/tests/testConfigfuntion.py
+new file mode 100644
+index 0000000..cb81587
+--- /dev/null
++++ b/tests/testConfigfuntion.py
+@@ -0,0 +1,28 @@
++# coding: utf-8
++
++import unittest
++from datetime import timedelta
++from afterimage.configfunction import AfterimageTimeline, AfterimageConfig
++
++class TestAfterimageTimeline(unittest.TestCase):
++
++    def setUp(self):
++        config_set = AfterimageConfig.fromfile("examples/config.toml")
++        for i in config_set:
++            if i.name == "cell":
++                self.timelines = i.timelines
++
++
++    def test_patterns(self):
++        for timeline in self.timelines:
++            if timeline.id == "25hourly-1":
++                self.assertEqual(timeline._interval, timedelta(days=1, hours=1))
++            elif timeline.id == "1-5hourly-10":
++                self.assertEqual(timeline._interval, timedelta(hours=1, minutes=30))
++            elif timeline.id == "90hourly-2":
++                self.assertEqual(timeline._interval, timedelta(hours=90))
++            elif timeline.id == "2yearly-1":
++                self.assertEqual(timeline._interval, timedelta(days=730))
++
++if __name__ == '__main__':
++    unittest.main()
+\ No newline at end of file
+diff --git a/todo.md b/todo.md
+index daf5b94..2723f9f 100644
+--- a/todo.md
++++ b/todo.md
+@@ -44,4 +44,5 @@
+ - [ ] make sure snapshots do not consume too much space
+ - [ ] i18n
+ - [ ] ebuild
+-- [ ] test with examples/*
+\ No newline at end of file
++- [ ] test with examples/*
++  - [x] timedelta
+\ No newline at end of file
+
