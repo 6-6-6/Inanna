@@ -12,5 +12,5 @@ LICENSE=GPL-2
 RDEPEND=client? ( sys-libs/ncurses:= sys-libs/readline:= ) filecaps? ( acct-group/bird acct-user/bird ) libssh? ( net-libs/libssh:= )
 SLOT=0
 SRC_URI=https://github.com/tohojo/bird/archive/901f906ac470b318d6598c8b25156b0919f70b2a.tar.gz -> bird-2.9999.tar.gz
-_eclasses_=gnuconfig	b6b3e92f8b8c996400074b5f61a59256	toolchain-funcs	9a610728b9bcca1919234cceb35a1027	multilib	5ca4e49abed8e3a2f7b56920eadee157	libtool	241a8f577b9781a42a7421e53448a44e	autotools	6dcd6b6a486e79928e1243ff9ba41fcc	fcaps	da0130200e07aaecee121b85f4b9ea17
+_eclasses_=autotools	6ae9a4347149b19a112caa1182d03bde	fcaps	c0a086b957a1b183a8d136eabf02f191	gnuconfig	b6b3e92f8b8c996400074b5f61a59256	libtool	9d3a9a889a6fa62ae794f817c156491b	multilib	c19072c3cd7ac5cb21de013f7e9832e0	toolchain-funcs	8e3fb781f3258ae2757d1dfc2c7c170e
 _md5_=5212c10f3b5656bf25eb7cd69732bec6

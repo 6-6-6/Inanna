@@ -9,5 +9,5 @@ RDEPEND=system-mesa? ( media-libs/mesa ) system-ffmpeg? ( media-video/ffmpeg[chr
 RESTRICT=strip
 SLOT=0
 SRC_URI=http://wppkg.baidupcs.com/issue/netdisk/Linuxguanjia/3.5.0/baidunetdisk_3.5.0_amd64.deb -> baidunetdisk-3.5.0.deb
-_eclasses_=multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	9a610728b9bcca1919234cceb35a1027	multilib	5ca4e49abed8e3a2f7b56920eadee157	unpacker	fdd15d854bf5e84f82d35524ab8ca6ba	xdg-utils	ac0e315a3688929e34ac75b139e7349a
+_eclasses_=multilib	c19072c3cd7ac5cb21de013f7e9832e0	multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	8e3fb781f3258ae2757d1dfc2c7c170e	unpacker	aa6a4e924009232d8b78b31e932c30b5	xdg-utils	baea6080dd821f5562d715887954c9d3
 _md5_=262e9924587edf8d4818e3478d49483c

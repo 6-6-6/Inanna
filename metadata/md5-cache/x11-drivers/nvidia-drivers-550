@@ -1,0 +1,5 @@
+DEFINED_PHASES=install postinst unpack
+EAPI=8
+KEYWORDS=*
+SLOT=0
+_md5_=4f17cce7f27500aad84b17767f3709b1
