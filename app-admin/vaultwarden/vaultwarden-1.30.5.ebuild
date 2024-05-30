@@ -448,7 +448,8 @@ BDEPEND="
 DEPEND="
 	acct-group/${MY_USER}
 	acct-user/${MY_USER}
-	dev-libs/openssl:0="
+	dev-libs/openssl:0=
+	postgres? ( dev-db/postgresql )"
 RDEPEND="${DEPEND}
 	>=www-apps/bitwarden-rs-web-vault-2024.1.2"
 
