@@ -523,12 +523,12 @@ src_install() {
 	# Install /etc/bitwarden_rs.env
 	insinto /etc
 	newins .env.template ${PN}.env
-	fowners root:root /etc/${PN}.env
+	use prefix || fowners root:root /etc/${PN}.env
 	fperms 600 /etc/${PN}.env
 
 	# Keep data dir
 	keepdir /var/lib/${MY_USER}/data
-	fowners ${MY_USER}:${MY_USER} /var/lib/${MY_USER}/data
+	use prefix || fowners ${MY_USER}:${MY_USER} /var/lib/${MY_USER}/data
 	fperms 700 /var/lib/${MY_USER}/data
 }
 
