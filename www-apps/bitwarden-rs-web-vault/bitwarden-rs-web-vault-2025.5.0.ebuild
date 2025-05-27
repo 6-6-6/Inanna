@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Unofficial patched bitwarden web-vault builds for bitwarden_rs"
 HOMEPAGE="https://github.com/dani-garcia/bw_web_builds"
-SRC_URI="https://github.com/dani-garcia/bw_web_builds/releases/download/v${PV}b/bw_web_v${PV}b.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/dani-garcia/bw_web_builds/releases/download/v${PV}/bw_web_v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
